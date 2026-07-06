@@ -5,7 +5,7 @@ A clean, minimal, handy macropad by **Samrath "Sami" Singh** for times when 104 
 *(or just an easier way to copy and paste)* 
 
 
-<img width="802" height="460" alt="SamiPad render" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0137-KmlUkE5BUhSNQqVMBdkPptodJnEj54.png" />
+<img width="802" height="460" alt="SamiPad 3D render" src="Images/render-front.png" />
 
 
 
@@ -70,7 +70,21 @@ When I was designing the PCB I wanted to make this macropad as compact as possib
 
 ## Renders
 
-<img width="929" height="648" alt="SamiPad render" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0137-KmlUkE5BUhSNQqVMBdkPptodJnEj54.png" />
+<img width="929" height="648" alt="SamiPad front render" src="Images/render-front.png" />
+
+<img width="800" height="450" alt="SamiPad angled render" src="Images/render-angle.png" />
+
+---
+
+## Schematic
+
+<img width="828" height="654" alt="SamiPad schematic" src="Images/schematic.png" />
+
+---
+
+## PCB Layout
+
+<img width="428" height="640" alt="SamiPad PCB layout" src="Images/pcb-layout.png" />
 
 ---
 
