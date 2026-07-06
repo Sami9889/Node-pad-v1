@@ -7,6 +7,12 @@
 		(legacy_teardrops no)
 	)
 	(paper "A4")
+	(title_block
+		(title "SamiPad Macropad")
+		(company "Samrath \"Sami\" Singh")
+		(comment 1 "github.com/Sami9889")
+		(comment 2 "hackpad.hackclub.com")
+	)
 	(layers
 		(0 "F.Cu" signal)
 		(2 "B.Cu" signal)
@@ -84,7 +90,7 @@
 			(mirror no)
 			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "C:/Users/nilay/Downloads/")
+			(outputdirectory "")
 		)
 	)
 	(footprint "Button_Switch_Keyboard:SW_Cherry_MX_1.00u_PCB"
@@ -367,7 +373,7 @@
 			(uuid "59afe290-d78a-44c3-857e-816c129700b7")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/MX .STEP"
+		(model "${KIPRJMOD}/models/MX .STEP"
 			(offset
 				(xyz -9.9 -12.5 6)
 			)
@@ -659,7 +665,7 @@
 			(uuid "4537d516-8d74-4088-8327-c8e92820a03d")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/MX .STEP"
+		(model "${KIPRJMOD}/models/MX .STEP"
 			(offset
 				(xyz -9.9 -12.5 6)
 			)
@@ -951,7 +957,7 @@
 			(uuid "c1b618ac-d920-491d-b909-43577ca5e174")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/MX .STEP"
+		(model "${KIPRJMOD}/models/MX .STEP"
 			(offset
 				(xyz -9.9 -12.5 6)
 			)
@@ -1374,7 +1380,7 @@
 			(uuid "64c57929-391e-49b5-96da-bd9e67d7c058")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/EC11_Rotary_Encoder_Switched.step"
+		(model "${KIPRJMOD}/models/EC11_Rotary_Encoder_Switched.step"
 			(offset
 				(xyz 7.5 -2.5 0)
 			)
@@ -1596,7 +1602,7 @@
 			(uuid "348eb80a-b2b6-4257-93b0-b7b5eb355cf0")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/OLED_0.91_128x32.stp"
+		(model "${KIPRJMOD}/models/OLED_0.91_128x32.stp"
 			(offset
 				(xyz 4 -17.5 0)
 			)
@@ -1888,7 +1894,7 @@
 			(uuid "29a78af4-85e7-4ecd-850f-c9819f305274")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/MX .STEP"
+		(model "${KIPRJMOD}/models/MX .STEP"
 			(offset
 				(xyz -9.9 -12.5 6)
 			)
@@ -2180,7 +2186,7 @@
 			(uuid "89fced04-6b75-4609-9c86-919adddb361b")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/MX .STEP"
+		(model "${KIPRJMOD}/models/MX .STEP"
 			(offset
 				(xyz -9.9 -12.5 6)
 			)
@@ -2472,7 +2478,7 @@
 			(uuid "af7154e1-b8c5-4ce3-86e6-74bcbe2d1998")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/MX .STEP"
+		(model "${KIPRJMOD}/models/MX .STEP"
 			(offset
 				(xyz -9.9 -12.5 6)
 			)
@@ -2764,7 +2770,7 @@
 			(uuid "cb2c8f34-a92c-4859-b781-e4cb8624020e")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/MX .STEP"
+		(model "${KIPRJMOD}/models/MX .STEP"
 			(offset
 				(xyz -9.9 -12.5 6)
 			)
@@ -7711,7 +7717,7 @@
 			(uuid "fdcff23e-1333-4dcc-8d63-6e78501e2aca")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/nilay/Downloads/Seeed Studio XIAO RP2040 v26.step"
+		(model "${KIPRJMOD}/models/Seeed Studio XIAO RP2040 v26.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -9452,6 +9458,42 @@
 		(layer "F.Cu")
 		(net "Net-(D10-K)")
 		(uuid "f084bf0e-c049-4c1e-b2d8-d4204de02936")
+	)
+	(gr_text "Samrath \"Sami\" Singh"
+		(at 111.75 143.2 0)
+		(layer "F.SilkS")
+		(uuid "5a316162-1000-4001-9001-5a6d69506164")
+		(effects
+			(font
+				(size 1.2 1.2)
+				(thickness 0.2)
+			)
+			(justify center bottom)
+		)
+	)
+	(gr_text "github.com/Sami9889"
+		(at 111.75 72.5 0)
+		(layer "B.SilkS")
+		(uuid "5a316162-1000-4001-9002-5a6d69506164")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify center top mirror)
+		)
+	)
+	(gr_text "SamiPad"
+		(at 111.75 75.2 0)
+		(layer "B.SilkS")
+		(uuid "5a316162-1000-4001-9003-5a6d69506164")
+		(effects
+			(font
+				(size 1.4 1.4)
+				(thickness 0.25)
+			)
+			(justify center top mirror)
+		)
 	)
 	(embedded_fonts no)
 )
