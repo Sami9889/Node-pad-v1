@@ -79,7 +79,7 @@ When I was designing the PCB I wanted to make this macropad as compact as possib
 **Samrath "Sami" Singh**
 
 - GitHub: [@Sami9889](https://github.com/Sami9889)
-- Website: [hackpad.hackclub.com](https://hackpad.hackclub.com/)
+- Website: [sami-s.dev](https://sami-s.dev)
 
 ---
 
