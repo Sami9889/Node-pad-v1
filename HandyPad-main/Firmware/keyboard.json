@@ -1,7 +1,7 @@
 {
     "keyboard_name": "sami/macropad",
     "manufacturer": "Samrath Sami Singh",
-    "url": "https://github.com/Sami9889",
+    "url": "https://sami-s.dev",
     "maintainer": "Sami9889",
     "processor": "RP2040",
     "bootloader": "rp2040",
@@ -12,17 +12,12 @@
     },
     "features": {
         "bootmagic": true,
-        "command": false,
-        "console": false,
         "extrakey": true,
         "mousekey": false,
         "nkro": true,
         "encoder": true,
         "oled": true,
         "rgblight": false
-    },
-    "bootmagic": {
-        "matrix": [0, 0]
     },
     "matrix_pins": {
         "rows": ["GP29", "GP0"],

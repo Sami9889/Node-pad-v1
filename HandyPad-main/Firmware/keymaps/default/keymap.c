@@ -1,3 +1,6 @@
+// Copyright 2026 Samrath "Sami" Singh (@Sami9889)
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #include QMK_KEYBOARD_H
 #include <string.h>
 
