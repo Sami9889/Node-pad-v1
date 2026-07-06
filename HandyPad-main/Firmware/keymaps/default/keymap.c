@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include <string.h>
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(
@@ -37,9 +38,41 @@ void matrix_scan_user(void) {
 }
 
 #ifdef OLED_ENABLE
+/* Animated name banner for Samrath "Sami" Singh.
+   The 0.91" 128x32 OLED fits ~21 chars per line with the default 6px font.
+   We scroll the name across the screen like a marquee for a lively effect. */
+#define OLED_VIEW_COLS 21
+
+static const char PROGMEM sami_marquee[] =
+    "Samrath \"Sami\" Singh   *   Sami9889   *   ";
+static uint8_t  sami_scroll_pos = 0;
+static uint32_t sami_scroll_timer = 0;
+
 bool oled_task_user(void) {
-    oled_write_ln_P(PSTR("nilay macropad"), false);
-    oled_write_ln_P(PSTR("layer 0"), false);
+    /* Static title line */
+    oled_set_cursor(0, 0);
+    oled_write_ln_P(PSTR("=== SamiPad ==="), false);
+
+    /* Advance the marquee on a timer for a smooth animation */
+    uint16_t len = strlen_P(sami_marquee);
+    if (timer_elapsed32(sami_scroll_timer) > 180) {
+        sami_scroll_timer = timer_read32();
+        sami_scroll_pos++;
+        if (sami_scroll_pos >= len) {
+            sami_scroll_pos = 0;
+        }
+    }
+
+    /* Build the visible window of the scrolling name */
+    char view[OLED_VIEW_COLS + 1];
+    for (uint8_t i = 0; i < OLED_VIEW_COLS; i++) {
+        view[i] = pgm_read_byte(&sami_marquee[(sami_scroll_pos + i) % len]);
+    }
+    view[OLED_VIEW_COLS] = '\0';
+
+    oled_set_cursor(0, 2);
+    oled_write(view, false);
+
     return false;
 }
 #endif
