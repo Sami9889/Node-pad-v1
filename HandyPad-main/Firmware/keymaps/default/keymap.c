@@ -4,10 +4,14 @@
 #include QMK_KEYBOARD_H
 #include <string.h>
 
+/* Default keymap — matches the README:
+ *   Top row:    Play/Pause | Previous Track | Next Track   (encoder sits in slot 4)
+ *   Bottom row: Copy       | Paste          | Undo         | Print Screen
+ */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(
-        KC_F13, KC_F14, KC_F15,
-        KC_F16, KC_F17, KC_F18, KC_F19
+        KC_MPLY,      KC_MPRV,      KC_MNXT,
+        LCTL(KC_C),   LCTL(KC_V),   LCTL(KC_Z),   KC_PSCR
     )
 };
 

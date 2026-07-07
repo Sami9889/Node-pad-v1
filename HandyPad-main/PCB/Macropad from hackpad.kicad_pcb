@@ -9468,7 +9468,7 @@
 				(size 1.2 1.2)
 				(thickness 0.2)
 			)
-			(justify center bottom)
+			(justify bottom)
 		)
 	)
 	(gr_text "github.com/Sami9889"
@@ -9480,7 +9480,7 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify center top mirror)
+			(justify top mirror)
 		)
 	)
 	(gr_text "SamiPad"
@@ -9492,7 +9492,7 @@
 				(size 1.4 1.4)
 				(thickness 0.25)
 			)
-			(justify center top mirror)
+			(justify top mirror)
 		)
 	)
 	(embedded_fonts no)
