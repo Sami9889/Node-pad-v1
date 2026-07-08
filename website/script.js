@@ -158,34 +158,49 @@
   ---------------------------------------- */
   var CONTACT_EMAIL = "admin@cernansky.xyz";
 
+  function doCopy(text) {
+    /* Try modern API first */
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        showToast("Copied: " + text);
+      }).catch(function () {
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.cssText = "position:fixed;left:0;top:0;opacity:0;";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta);
+    if (ok) {
+      showToast("Copied: " + text);
+    } else {
+      showToast("Email: " + text);
+    }
+  }
+
   /* Variant "Get notified" buttons */
   document.querySelectorAll(".notify-btn").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
       e.preventDefault();
-      copyToClipboard(CONTACT_EMAIL);
+      doCopy(CONTACT_EMAIL);
     });
   });
 
   /* Main CTA copy button */
   var copyEmailBtn = document.getElementById("copyEmailBtn");
-  var copyStatus = document.getElementById("copyStatus");
   if (copyEmailBtn) {
     copyEmailBtn.addEventListener("click", function () {
-      var ta = document.createElement("textarea");
-      ta.value = CONTACT_EMAIL;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "fixed";
-      ta.style.left = "-9999px";
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand("copy");
-        showToast("Copied: " + CONTACT_EMAIL);
-        if (copyStatus) copyStatus.textContent = "Copied to clipboard!";
-      } catch (err) {
-        if (copyStatus) copyStatus.textContent = "Select and copy: " + CONTACT_EMAIL;
-      }
-      document.body.removeChild(ta);
+      doCopy(CONTACT_EMAIL);
     });
   }
 
