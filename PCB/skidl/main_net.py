@@ -219,6 +219,10 @@ user_io.build(
 import extras;      extras.build(nets)
 
 
+import missing_parts
+missing_parts.build(nets)
+
+
 # ----- Emit netlist ---------------------------------------------------
 if __name__ == "__main__":
     os.makedirs("netlists", exist_ok=True)
