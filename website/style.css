@@ -408,6 +408,18 @@ input, select, textarea { font: inherit; color: inherit; }
 }
 .variant-specs li::before { content: '›'; position: absolute; left: 0; color: var(--accent-2); }
 .variant-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 20px; }
+.variant-pricing { display: flex; flex-direction: column; gap: 0; margin-bottom: 20px; }
+.variant-price-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.variant-price-row:last-child { border-bottom: none; }
+.variant-price-label { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); }
+.variant-price-row .price-amount { font-size: 1.1rem; }
+.variant-price-row--highlight { background: rgba(79, 141, 253, 0.06); padding: 8px 10px; border-radius: 6px; border-bottom: none; }
+.variant-price-row--highlight .variant-price-label { color: var(--accent); font-weight: 600; }
+.variant-price-row--highlight .price-amount { color: var(--accent-2); font-size: 1.2rem; }
 .price-amount { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; }
 .price-period { color: var(--text-faint); font-size: 0.85rem; }
 
