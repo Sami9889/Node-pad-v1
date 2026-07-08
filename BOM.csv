@@ -1,0 +1,51 @@
+Reference,Value,Footprint,LCSC Part #,JLC Type,Qty,Description,Unit Price USD
+U1,Radxa CM5 8GB/64GB,DF40-100P x2 mating,,SoM,1,Radxa CM5 compute module RK3588S2 8GB LPDDR4X 64GB eMMC,89.00
+J1,DF40C-100DS-0.4V,Hirose_DF40C-100DS-0.4V,C43880,Extended,1,100-pin 0.4mm SoM connector,2.50
+J2,DF40C-100DS-0.4V,Hirose_DF40C-100DS-0.4V,C43880,Extended,1,100-pin 0.4mm SoM connector,2.50
+U2,RTL8125BG,QFN-64_9x9mm,C2861126,Extended,1,2.5GbE MAC+PHY controller,3.10
+J3,0826-1G1T-04-F,RJ45_BelFuse_0826,C516428,Extended,1,RJ45 integrated magnetics 1G PoE-ready,2.80
+J4,0826-1G1T-04-F,RJ45_BelFuse_0826,C516428,Extended,1,RJ45 integrated magnetics 2.5G PoE-ready,2.80
+Y1,25MHz TCXO 3.3V,SMD_3225-4P,C1804,Extended,1,25MHz TCXO 20ppm for RTL8125,0.30
+J5,M.2_M-key_2280,M.2_2280_M-key,C725119,Extended,1,M.2 NGFF M-key socket 2280 length,1.20
+J6,M.2_E-key_2230,M.2_2230_E-key,C725118,Extended,1,M.2 NGFF E-key socket 2230 length,0.95
+U3,MP2315GJ,SOT-563-8,C89358,Basic,1,4.5-24V input 3A buck 5V out,0.42
+U4,AP2112K-3.3,SOT-23-5,C51118,Basic,1,3.3V 600mA LDO,0.20
+U5,CH224K,ESSOP-10,C970725,Extended,1,USB-C PD sink controller programmable,0.55
+U6,MP8007GV,SOIC-16,C910435,Extended,1,PoE+ 802.3at PD converter (DNP by default),2.80
+T1,750317847,Wurth_PoE_Flyback,,Extended,1,PoE flyback transformer (DNP by default),2.20
+U7,DS3231MZ+,SOIC-8,C107373,Extended,1,I2C RTC with TCXO ±5ppm,2.10
+BT1,BS-14-2500,BatteryHolder_CR2032,C70376,Extended,1,SMD CR2032 coin cell holder,0.28
+U8,USBLC6-2SC6,SOT-23-6,C7469,Basic,1,USB ESD/TVS array,0.16
+U9,USBLC6-2SC6,SOT-23-6,C7469,Basic,1,USB ESD/TVS array,0.16
+U10,GL3523,QFN-88,C107837,Extended,1,USB 3.0 4-port hub controller,1.80
+U11,TPS2553DBVR,SOT-23-6,C43829,Extended,1,USB power switch + current limit,0.35
+U12,TPS2553DBVR,SOT-23-6,C43829,Extended,1,USB power switch + current limit,0.35
+U13,TPS2553DBVR,SOT-23-6,C43829,Extended,1,USB power switch + current limit,0.35
+U14,TPS2553DBVR,SOT-23-6,C43829,Extended,1,USB power switch + current limit,0.35
+J7,USB-C_Receptacle,USB_C_Receptacle_TypeC-16P,C165948,Extended,1,USB Type-C 16-pin recept,0.35
+J8,USB_A_3.0,USB_A_Vertical_3.0,C165999,Extended,1,USB 3.0 Type-A vertical,0.55
+J9,USB_A_3.0,USB_A_Vertical_3.0,C165999,Extended,1,USB 3.0 Type-A vertical,0.55
+J10,USB_A_3.0,USB_A_Vertical_3.0,C165999,Extended,1,USB 3.0 Type-A vertical,0.55
+J11,USB_A_3.0,USB_A_Vertical_3.0,C165999,Extended,1,USB 3.0 Type-A vertical,0.55
+J12,HDMI_A,HDMI_A_Molex_47151-1005,C2681,Extended,1,HDMI Type-A receptacle,0.60
+J13,PinHeader_2x20,PinHeader_2x20_P2.54mm_Vertical,C124378,Basic,1,40-pin GPIO 2.54mm header,0.25
+J14,microSD_push-push,microSD_HC_Wuerth_693072010801,C91145,Extended,1,microSD push-push socket,0.45
+J15,PinHeader_1x04,PinHeader_1x04_P2.54mm_Vertical,C124381,Basic,1,4-pin PWM fan header,0.15
+SW1,K2-1114ST-A4SW-06,SW_SPST_TL3305,C318884,Basic,1,Reset tactile 6x6mm,0.08
+SW2,K2-1114ST-A4SW-06,SW_SPST_TL3305,C318884,Basic,1,Boot recovery tactile 6x6mm,0.08
+D1,LED_0603_Green,LED_0603,C72043,Basic,1,Power LED green,0.03
+D2,LED_0603_Blue,LED_0603,C72043,Basic,1,System status LED blue,0.03
+D3,LED_0603_Yellow,LED_0603,C72043,Basic,1,LINK1 LED,0.03
+D4,LED_0603_Yellow,LED_0603,C72043,Basic,1,LINK2 LED,0.03
+D5,LED_0603_Red,LED_0603,C72043,Basic,1,NVMe activity LED,0.03
+C1-C40,10uF 0603 X7R 25V,C_0603,C19702,Basic,40,Bulk decoupling caps,0.02
+C41-C90,100nF 0402 X7R 16V,C_0402,C1525,Basic,50,MLCC bypass caps,0.005
+C91-C100,1uF 0402 X7R 10V,C_0402,C15849,Basic,10,MLCC filter caps,0.008
+C101,22uF 0805 X7R 25V,C_0805,C45783,Basic,1,Input bulk cap 5V rail,0.09
+C102,22uF 0805 X7R 25V,C_0805,C45783,Basic,1,Output bulk cap 5V rail,0.09
+R1-R80,10kΩ 0402 1%,R_0402,C25804,Basic,80,Pull-ups / dividers,0.001
+R81-R90,4.7kΩ 0402 1%,R_0402,C25900,Basic,10,I2C pull-ups etc,0.001
+R91-R95,49.9Ω 0402 1%,R_0402,C25076,Basic,5,USB/Ethernet termination,0.002
+L1,10uH 0805 SMD,L_0805,C1046,Basic,1,MP2315 inductor,0.10
+L2-L5,600Ω @100MHz ferrite bead,L_0402,C15903,Basic,4,USB power ferrites,0.02
+FB1-FB5,BLM18AG601SN1D,L_0603,C1017,Basic,5,PHY power ferrites,0.05

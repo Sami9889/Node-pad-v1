@@ -1,0 +1,33 @@
+CERN Open Hardware Licence Version 2 - Permissive
+
+Copyright Samrath "Sami" Singh 2026
+
+    This documentation describes Open Hardware and is licensed under the
+    CERN-OHL-P v2.
+
+    You may redistribute and modify this documentation and make products
+    using it under the terms of the CERN-OHL-P v2 (https:/cern.ch/cern-ohl).
+    This documentation is distributed WITHOUT ANY EXPRESS OR IMPLIED
+    WARRANTY, INCLUDING OF MERCHANTABILITY, SATISFACTORY QUALITY AND FITNESS
+    FOR A PARTICULAR PURPOSE. Please see the CERN-OHL-P v2 for applicable
+    conditions.
+
+--------------------------------------------------------------------------
+
+                              Preamble
+
+CERN has developed this licence to promote collaboration among hardware
+designers and to provide a legal tool which supports the freedom to use,
+study, modify, share and distribute hardware designs and products based
+on those designs. Version 2 of the CERN Open Hardware Licence comes in
+three variants: CERN-OHL-P (permissive); and two reciprocal licences:
+CERN-OHL-W (weakly reciprocal) and CERN-OHL-S (strongly reciprocal).
+
+The CERN-OHL-P is copyright CERN 2020. Anyone is welcome to use the
+CERN-OHL-P v2, or to make modified versions of it, provided that the
+modified licence is clearly identified as such, is given a different
+name, and does not contain the CERN-OHL logos or the CERN name.
+
+Full text of the licence is available at:
+    https://ohwr.org/cern_ohl_p_v2.txt
+    https://ohwr.org/cern_ohl_p_v2.pdf

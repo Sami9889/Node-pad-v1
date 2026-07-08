@@ -183,27 +183,42 @@ nodepad/
 
 ---
 
-## Decisions I still need from you (5 quick calls)
+## ✅ Decisions locked in
 
-1. **PoE**: (a) always populate (~+$8 BOM), (b) leave unpopulated by default (footprint only), (c) skip entirely. My rec: **(b)**.
-2. **HDMI**: keep for GUI users, or drop to save BOM cost (~$1.20) and be pure-headless? My rec: **keep**.
-3. **2nd NIC**: (a) discrete RTL8125 on-board (as designed above), (b) rely on M.2 E-key card, (c) drop (single-NIC only). My rec: **(a)**, biggest differentiator.
-4. **USB count**: 4× USB-A 3.0 (as designed) or trim to 2× to save space & cost? My rec: **4×**.
-5. **License** if you plan to sell: MIT (permissive, anyone can copy) or CERN-OHL-P (permissive open hardware, more suited to PCBs)? My rec: **CERN-OHL-P**.
+| # | Decision | Choice |
+|---|---|---|
+| 1 | **PoE** | Footprint-only (populate optional) |
+| 2 | **HDMI** | Kept |
+| 3 | **2nd 2.5 GbE NIC** | On-board RTL8125BG (biggest diff vs Pi 5) |
+| 4 | **USB 3.0 ports** | 4× vertical Type-A (via GL3523 hub) |
+| 5 | **License** | CERN-OHL-P v2 |
 
 ---
 
 ## Next steps (in order)
 
-- [ ] You answer the 5 decisions above
-- [ ] I set up the KiCad 10 project scaffold (`.kicad_pro`, empty multi-sheet schematic, blank 100×100 board outline, JLC-tuned design rules)
-- [ ] I draw the schematic sheet by sheet (CPU/SoM connectors → Power → Network → I/O → GPIO)
-- [ ] Footprint assignment
-- [ ] PCB placement (component location strategy: CM5 top center, NICs bottom left, USB/HDMI back edge)
-- [ ] Route: power planes first, then differential pairs (Ethernet, PCIe, USB3), then GPIO
-- [ ] DRC + ERC pass, generate gerbers
-- [ ] Order 5 prototypes from JLCPCB → bring-up
-- [ ] Rev 2 fixes → sales-ready
+- [x] Design brief locked
+- [x] KiCad 10 project scaffold created (`/PCB/NodePad.kicad_pro`, `.kicad_sch`, `.kicad_pcb`)
+- [x] 100 × 100 mm board outline with 4× M2.5 mounting holes
+- [x] 4-layer stackup + JLC-tuned design rules + net classes (PCIe / USB3 / Ethernet / HDMI / Power)
+- [x] BOM.csv with LCSC part numbers
+- [x] LICENSE (CERN-OHL-P v2)
+- [ ] Schematic capture — power tree
+- [ ] Schematic capture — CM5 SoM connectors + decoupling
+- [ ] Schematic capture — RTL8125 NIC + magnetics
+- [ ] Schematic capture — M.2 M-key + E-key slots
+- [ ] Schematic capture — GL3523 USB 3.0 hub + 4× USB-A
+- [ ] Schematic capture — HDMI, GPIO header, RTC, buttons, LEDs
+- [ ] Schematic capture — PoE section (footprint-only, DNP)
+- [ ] ERC clean
+- [ ] Footprint assignment (JLC-Basic priority)
+- [ ] PCB placement
+- [ ] PCB routing (PCIe → USB3 → HDMI → Ethernet → GPIO)
+- [ ] DRC clean
+- [ ] Gerber + CPL + BOM export
+- [ ] Order 5 prototypes from JLCPCB (~$400)
+- [ ] Bring-up + rev 2 fixes
+- [ ] Sellable rev 2 spin
 
 Realistic total timeline from your side: **~3 months part-time** to a rev-2 sellable board. My share (design + docs) is front-loaded in the first 2–3 weeks.
 
