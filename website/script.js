@@ -156,7 +156,7 @@
   /* ----------------------------------------
      "Get notified" buttons -> copy email
   ---------------------------------------- */
-  var CONTACT_EMAIL = "ttt600161@gmail.com";
+  var CONTACT_EMAIL = "admin@cernansky.xyz";
   document.querySelectorAll(".notify-btn").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
       e.preventDefault();
