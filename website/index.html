@@ -420,34 +420,12 @@
   <!-- CTA -->
   <section class="section section--cta" id="contact">
     <div class="wrap">
-      <div class="cta-box">
-        <div class="cta-copy">
-          <p class="section-eyebrow">// design phase</p>
-          <h2 class="section-title">Follow the build</h2>
-          <p class="section-sub">Drop your email to get notified when prototypes are ready. No spam — just build updates and launch day.</p>
-        </div>
-        <form class="contact-form" id="contactForm" novalidate>
-          <div class="form-row">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required autocomplete="name">
-          </div>
-          <div class="form-row">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required autocomplete="email">
-          </div>
-          <div class="form-row">
-            <label for="interest">Interested in</label>
-            <select id="interest" name="interest">
-              <option>NodePad (Base)</option>
-              <option>NodePad-Net (Networking)</option>
-              <option>Both / Not sure</option>
-              <option>Custom cluster order</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Notify me</button>
-          <p class="form-hint">We'll email you when prototypes drop. That's it.</p>
-          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-        </form>
+      <div class="cta-box cta-box--centered">
+        <p class="section-eyebrow">// design phase</p>
+        <h2 class="section-title">Follow the build</h2>
+        <p class="section-sub">Want to know when prototypes drop? Copy our email and send us a message.</p>
+        <button class="btn btn-primary btn-lg copy-email-btn" id="copyEmailBtn">Copy email: admin@cernansky.xyz</button>
+        <p class="copy-status" id="copyStatus" role="status" aria-live="polite"></p>
       </div>
     </div>
   </section>

@@ -556,35 +556,21 @@ input, select, textarea { font: inherit; color: inherit; }
    ============================================ */
 .section--cta { padding-bottom: 110px; }
 .cta-box {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 56px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 56px;
 }
-.cta-copy .section-title, .cta-copy .section-sub { max-width: none; }
-.cta-copy .section-sub { margin-bottom: 0; }
-
-.contact-form { display: flex; flex-direction: column; gap: 16px; }
-.form-row { display: flex; flex-direction: column; gap: 6px; }
-.form-row label { font-size: 0.82rem; color: var(--text-muted); font-family: var(--font-mono); }
-.form-row input, .form-row select, .form-row textarea {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 11px 14px;
-  color: var(--text);
-  resize: vertical;
+.cta-box--centered {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.form-row input:focus, .form-row select:focus, .form-row textarea:focus {
-  border-color: var(--accent);
-  outline: none;
-}
-.form-hint { font-size: 0.8rem; color: var(--text-faint); text-align: center; }
-.form-status { font-size: 0.88rem; min-height: 1.2em; color: var(--accent-2); font-family: var(--font-mono); }
-.form-status.is-error { color: #ff8a8a; }
+.cta-box--centered .section-title { max-width: none; }
+.cta-box--centered .section-sub { max-width: 50ch; margin-bottom: 32px; }
+.btn-lg { padding: 16px 32px; font-size: 1.05rem; }
+.copy-status { font-family: var(--font-mono); font-size: 0.88rem; color: var(--accent-2); min-height: 1.2em; margin-top: 12px; }
 
 /* ============================================
    Footer
@@ -670,7 +656,7 @@ input, select, textarea { font: inherit; color: inherit; }
   .variants-grid { grid-template-columns: 1fr; }
   .pricing-cards { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
-  .cta-box { grid-template-columns: 1fr; }
+  .cta-box { padding: 40px 28px; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
 }
 

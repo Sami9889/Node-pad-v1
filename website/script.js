@@ -154,9 +154,11 @@
   }
 
   /* ----------------------------------------
-     "Get notified" buttons -> copy email
+     Copy email buttons
   ---------------------------------------- */
   var CONTACT_EMAIL = "admin@cernansky.xyz";
+
+  /* Variant "Get notified" buttons */
   document.querySelectorAll(".notify-btn").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
       e.preventDefault();
@@ -164,45 +166,26 @@
     });
   });
 
-  /* ----------------------------------------
-     Contact form -> copy email
-  ---------------------------------------- */
-  var contactForm = document.getElementById("contactForm");
-  var formStatus = document.getElementById("formStatus");
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var name = document.getElementById("name").value.trim();
-      var email = document.getElementById("email").value.trim();
-      var interest = document.getElementById("interest").value;
-      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      if (!name || !email) {
-        formStatus.textContent = "Please fill in every required field.";
-        formStatus.classList.add("is-error");
-        return;
+  /* Main CTA copy button */
+  var copyEmailBtn = document.getElementById("copyEmailBtn");
+  var copyStatus = document.getElementById("copyStatus");
+  if (copyEmailBtn) {
+    copyEmailBtn.addEventListener("click", function () {
+      var ta = document.createElement("textarea");
+      ta.value = CONTACT_EMAIL;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showToast("Copied: " + CONTACT_EMAIL);
+        if (copyStatus) copyStatus.textContent = "Copied to clipboard!";
+      } catch (err) {
+        if (copyStatus) copyStatus.textContent = "Select and copy: " + CONTACT_EMAIL;
       }
-      if (!emailPattern.test(email)) {
-        formStatus.textContent = "That email address doesn't look right.";
-        formStatus.classList.add("is-error");
-        return;
-      }
-
-      var subject = "NodePad interest: " + interest + " (" + name + ")";
-      var body = "Name: " + name + "\nEmail: " + email + "\nInterest: " + interest;
-
-      /* Try mailto (works on phones with mail app) */
-      var mailtoLink = "mailto:" + encodeURIComponent(CONTACT_EMAIL) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-      var opened = false;
-      try { opened = window.open(mailtoLink); } catch (err) {}
-
-      /* Always copy email to clipboard as fallback */
-      copyToClipboard(CONTACT_EMAIL);
-
-      formStatus.classList.remove("is-error");
-      formStatus.textContent = opened ? "Opening your email app..." : "Email copied to clipboard — send us a message!";
-      contactForm.reset();
+      document.body.removeChild(ta);
     });
   }
 
