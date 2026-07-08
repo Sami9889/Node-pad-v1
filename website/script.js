@@ -154,35 +154,18 @@
   }
 
   /* ----------------------------------------
-     Email popup
+     Variant "Get notified" -> scroll to CTA
   ---------------------------------------- */
-  var emailOverlay = document.getElementById("emailOverlay");
-  var emailClose = document.getElementById("emailClose");
-
-  function showEmailPopup(e) {
-    if (e) e.preventDefault();
-    if (emailOverlay) emailOverlay.classList.add("is-visible");
-  }
-
-  if (emailClose) {
-    emailClose.addEventListener("click", function () {
-      emailOverlay.classList.remove("is-visible");
-    });
-  }
-  if (emailOverlay) {
-    emailOverlay.addEventListener("click", function (e) {
-      if (e.target === emailOverlay) emailOverlay.classList.remove("is-visible");
-    });
-  }
-
   document.querySelectorAll(".notify-btn").forEach(function (btn) {
-    btn.addEventListener("click", showEmailPopup);
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      var el = document.getElementById("emailSelect");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(function () { el.select && window.getSelection().selectAllChildren(el); }, 600);
+      }
+    });
   });
-
-  var copyEmailBtn = document.getElementById("copyEmailBtn");
-  if (copyEmailBtn) {
-    copyEmailBtn.addEventListener("click", showEmailPopup);
-  }
 
   /* ----------------------------------------
      Back to top button

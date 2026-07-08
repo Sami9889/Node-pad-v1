@@ -424,8 +424,8 @@
         <p class="section-eyebrow">// design phase</p>
         <h2 class="section-title">Follow the build</h2>
         <p class="section-sub">Want to know when prototypes drop? Copy our email and send us a message.</p>
-        <button class="btn btn-primary btn-lg copy-email-btn" id="copyEmailBtn">Copy email: admin@cernansky.xyz</button>
-        <p class="copy-status" id="copyStatus" role="status" aria-live="polite"></p>
+        <p class="email-select" id="emailSelect">admin@cernansky.xyz</p>
+        <p class="copy-hint">Click to select, then Ctrl+C</p>
       </div>
     </div>
   </section>
@@ -467,14 +467,7 @@
 </footer>
 
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
-<div class="email-overlay" id="emailOverlay">
-  <div class="email-popup">
-    <p class="email-popup-label">Send us an email:</p>
-    <p class="email-popup-addr" id="emailAddr">admin@cernansky.xyz</p>
-    <p class="email-popup-hint">Select &amp; copy the address above</p>
-    <button class="btn btn-ghost email-popup-close" id="emailClose">Close</button>
-  </div>
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
