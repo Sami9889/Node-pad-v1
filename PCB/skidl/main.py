@@ -1,22 +1,25 @@
 """
-NodePad — Main schematic composition.
+NodePad — Main schematic composition (FULL design).
 
-Combines the sub-blocks (power tree, RTC, user I/O) into a single design
-and emits the KiCad netlist.
+Composes all sub-blocks into a single design and emits the KiCad netlist.
 
-The complex sub-blocks that need careful datasheet review (Radxa CM5 SoM
-connector wiring, RTL8125 with its magnetics, GL3523 USB hub, M.2 slots,
-HDMI ESD, PoE input) are stubbed for now — they are the biggest chunk of
-engineering work and belong in dedicated review sessions, not automated
-generation.
+Sub-blocks:
+    power_tree.py     Power (USB-C -> PD -> buck -> LDO)
+    cm5.py            Radxa CM5 SoM connectors J1/J2
+    ethernet.py       RJ45 #1 (1G native) + RTL8125 + RJ45 #2 (2.5G)
+    usb_hub.py        GL3523 hub + 4x USB-A + TPS2553 power switches
+    m2.py             M.2 M-key NVMe + M.2 E-key WiFi
+    hdmi.py           HDMI 2.0 Type-A + ESD
+    poe.py            PoE+ front-end (all DNP by default)
+    rtc.py            DS3231 + CR2032 backup
+    user_io.py        Buttons, LEDs, GPIO40, fan header
 
 Run:
     KICAD_SYMBOL_DIR=/opt/kicad-libs/symbols \\
     python3 main.py
 
 Outputs:
-    ./netlists/nodepad.net       (KiCad netlist, importable via
-                                  Pcbnew ► File ► Import ► KiCad Netlist)
+    ./netlists/nodepad.net
 """
 
 import os
@@ -29,80 +32,211 @@ set_default_tool(KICAD9)
 
 
 # ---------------------------------------------------------------------------
-# Top-level nets (shared across all sub-blocks)
+# Declare every net that crosses sub-block boundaries FIRST
+# so sub-blocks all bind to the same instance.
 # ---------------------------------------------------------------------------
-GND   = Net("GND"); GND.drive = 3
+def make_net(name, drive=None):
+    n = Net(name)
+    if drive is not None:
+        n.drive = drive
+    return n
 
-# Power rails
-VBUS_USB = Net("VBUS_USB")     # raw 5V from USB-C
-VIN_12V  = Net("VIN_12V")      # after CH224K PD sink
-V5       = Net("+5V")          # MP2315 output
-V3P3     = Net("+3V3_AUX")     # AP2112 output
 
-# I²C bus (RTC + GPIO header)
-I2C_SDA = Net("I2C0_SDA")
-I2C_SCL = Net("I2C0_SCL")
+nets = {
+    # Power rails (already created by power_tree - we'll reuse by name)
+    "GND":       make_net("GND", drive=3),
+    "+5V":       make_net("+5V"),
+    "+3V3_AUX":  make_net("+3V3_AUX"),
+    "VIN_12V":   make_net("VIN_12V"),
+    "VBUS_USB":  make_net("VBUS_USB"),
+
+    # USB 2.0 (OTG) and USB 3.0 host (CM5)
+    "USB_DP":    make_net("USB_DP"),
+    "USB_DM":    make_net("USB_DM"),
+    "USB3_TX_P": make_net("USB3_TX_P"),
+    "USB3_TX_N": make_net("USB3_TX_N"),
+    "USB3_RX_P": make_net("USB3_RX_P"),
+    "USB3_RX_N": make_net("USB3_RX_N"),
+    "USB3_DP":   make_net("USB3_DP"),
+    "USB3_DM":   make_net("USB3_DM"),
+    "USB2_1_DP": make_net("USB2_1_DP"),
+    "USB2_1_DM": make_net("USB2_1_DM"),
+    "USB2_2_DP": make_net("USB2_2_DP"),
+    "USB2_2_DM": make_net("USB2_2_DM"),
+
+    # I²C busses
+    "I2C0_SDA":  make_net("I2C0_SDA"),
+    "I2C0_SCL":  make_net("I2C0_SCL"),
+    "I2C1_SDA":  make_net("I2C1_SDA"),
+    "I2C1_SCL":  make_net("I2C1_SCL"),
+
+    # UART
+    "UART0_TX":  make_net("UART0_TX"),
+    "UART0_RX":  make_net("UART0_RX"),
+    "UART2_TX":  make_net("UART2_TX"),
+    "UART2_RX":  make_net("UART2_RX"),
+
+    # SPI
+    "SPI0_MOSI": make_net("SPI0_MOSI"),
+    "SPI0_MISO": make_net("SPI0_MISO"),
+    "SPI0_SCLK": make_net("SPI0_SCLK"),
+    "SPI0_CE0":  make_net("SPI0_CE0"),
+    "SPI0_CE1":  make_net("SPI0_CE1"),
+
+    # PWM
+    "PWM_GPIO_1": make_net("PWM_GPIO_1"),
+    "PWM_GPIO_2": make_net("PWM_GPIO_2"),
+
+    # HDMI (CM5 -> J12)
+    "HDMI_TX0_P": make_net("HDMI_TX0_P"),
+    "HDMI_TX0_N": make_net("HDMI_TX0_N"),
+    "HDMI_TX1_P": make_net("HDMI_TX1_P"),
+    "HDMI_TX1_N": make_net("HDMI_TX1_N"),
+    "HDMI_TX2_P": make_net("HDMI_TX2_P"),
+    "HDMI_TX2_N": make_net("HDMI_TX2_N"),
+    "HDMI_CLK_P": make_net("HDMI_CLK_P"),
+    "HDMI_CLK_N": make_net("HDMI_CLK_N"),
+    "HDMI_CEC":   make_net("HDMI_CEC"),
+    "HDMI_HPD":   make_net("HDMI_HPD"),
+    "HDMI_DDC_SDA": make_net("HDMI_DDC_SDA"),
+    "HDMI_DDC_SCL": make_net("HDMI_DDC_SCL"),
+
+    # Ethernet #1 (CM5 native GbE MDI)
+    "ETH0_MDI0_P": make_net("ETH0_MDI0_P"),
+    "ETH0_MDI0_N": make_net("ETH0_MDI0_N"),
+    "ETH0_MDI1_P": make_net("ETH0_MDI1_P"),
+    "ETH0_MDI1_N": make_net("ETH0_MDI1_N"),
+    "ETH0_MDI2_P": make_net("ETH0_MDI2_P"),
+    "ETH0_MDI2_N": make_net("ETH0_MDI2_N"),
+    "ETH0_MDI3_P": make_net("ETH0_MDI3_P"),
+    "ETH0_MDI3_N": make_net("ETH0_MDI3_N"),
+    "ETH0_LED_ACT":  make_net("ETH0_LED_ACT"),
+    "ETH0_LED_LINK": make_net("ETH0_LED_LINK"),
+
+    # Ethernet #2 (RTL8125 MDI + LEDs)
+    "ETH1_MDI0_P": make_net("ETH1_MDI0_P"),
+    "ETH1_MDI0_N": make_net("ETH1_MDI0_N"),
+    "ETH1_MDI1_P": make_net("ETH1_MDI1_P"),
+    "ETH1_MDI1_N": make_net("ETH1_MDI1_N"),
+    "ETH1_MDI2_P": make_net("ETH1_MDI2_P"),
+    "ETH1_MDI2_N": make_net("ETH1_MDI2_N"),
+    "ETH1_MDI3_P": make_net("ETH1_MDI3_P"),
+    "ETH1_MDI3_N": make_net("ETH1_MDI3_N"),
+    "ETH1_LED_ACT":  make_net("ETH1_LED_ACT"),
+    "ETH1_LED_LINK": make_net("ETH1_LED_LINK"),
+
+    # PCIe Combo0 (M-key NVMe)
+    "PCIE0_TX_P":     make_net("PCIE0_TX_P"),
+    "PCIE0_TX_N":     make_net("PCIE0_TX_N"),
+    "PCIE0_RX_P":     make_net("PCIE0_RX_P"),
+    "PCIE0_RX_N":     make_net("PCIE0_RX_N"),
+    "PCIE0_REFCLK_P": make_net("PCIE0_REFCLK_P"),
+    "PCIE0_REFCLK_N": make_net("PCIE0_REFCLK_N"),
+    "PCIE0_PERST_N":  make_net("PCIE0_PERST_N"),
+    "PCIE0_CLKREQ_N": make_net("PCIE0_CLKREQ_N"),
+    "PCIE0_WAKE_N":   make_net("PCIE0_WAKE_N"),
+
+    # PCIe Combo1 (E-key or RTL8125)
+    "PCIE1_TX_P":     make_net("PCIE1_TX_P"),
+    "PCIE1_TX_N":     make_net("PCIE1_TX_N"),
+    "PCIE1_RX_P":     make_net("PCIE1_RX_P"),
+    "PCIE1_RX_N":     make_net("PCIE1_RX_N"),
+    "PCIE1_REFCLK_P": make_net("PCIE1_REFCLK_P"),
+    "PCIE1_REFCLK_N": make_net("PCIE1_REFCLK_N"),
+    "PCIE1_PERST_N":  make_net("PCIE1_PERST_N"),
+    "PCIE1_CLKREQ_N": make_net("PCIE1_CLKREQ_N"),
+    "PCIE1_WAKE_N":   make_net("PCIE1_WAKE_N"),
+
+    # SD card + boot select
+    "SD_CLK": make_net("SD_CLK"),
+    "SD_CMD": make_net("SD_CMD"),
+    "SD_D0":  make_net("SD_D0"),
+    "SD_D1":  make_net("SD_D1"),
+    "SD_D2":  make_net("SD_D2"),
+    "SD_D3":  make_net("SD_D3"),
+    "SD_DET_N": make_net("SD_DET_N"),
+    "CM5_BOOT0": make_net("CM5_BOOT0"),
+    "CM5_BOOT1": make_net("CM5_BOOT1"),
+    "CM5_BOOT2": make_net("CM5_BOOT2"),
+
+    # CM5 control signals
+    "CM5_RUN_N":       make_net("CM5_RUN_N"),
+    "CM5_MASKROM":     make_net("CM5_MASKROM"),
+    "CM5_POWER_EN":    make_net("CM5_POWER_EN"),
+    "CM5_PWR_GOOD":    make_net("CM5_PWR_GOOD"),
+    "CM5_GPIO_STATUS": make_net("CM5_GPIO_STATUS"),
+
+    # I/O signals (fan, buttons already-known)
+    "FAN_TACH": make_net("FAN_TACH"),
+    "FAN_PWM":  make_net("FAN_PWM"),
+    "NVME_ACT_N": make_net("NVME_ACT_N"),
+    "RTC_INT_N":  make_net("RTC_INT_N"),
+
+    # Aliases used by user_io.build()
+    "PHY1_LED_ACT": None,  # will be aliased to ETH0_LED_ACT below
+    "PHY2_LED_ACT": None,
+}
+# Alias PHYx_LED_ACT -> ETHx_LED_ACT
+nets["PHY1_LED_ACT"] = nets["ETH0_LED_ACT"]
+nets["PHY2_LED_ACT"] = nets["ETH1_LED_ACT"]
+
 
 # ---------------------------------------------------------------------------
-# 1) Power tree
+# Instantiate sub-blocks in dependency order
 # ---------------------------------------------------------------------------
-# Just importing power_tree.py runs it top-to-bottom and instantiates all
-# power parts. It uses its own GND/nets — we don't need to pass them in.
-# For a full production merge we would refactor power_tree.py into a
-# build() function too; for now we treat this file as the primary entry.
 
-import power_tree  # noqa: F401  (side effect: instantiates all power parts)
+# Power tree runs on import (still uses its own local Net() instances but
+# de-duplicates by name — the top-level nets we made above will merge in
+# because Net() with same name = same net).
+import power_tree  # noqa: F401
 
+# CM5 SoM connectors
+import cm5
+cm5.build(nets)
 
-# ---------------------------------------------------------------------------
-# 2) RTC
-# ---------------------------------------------------------------------------
-# Reach into power_tree's nets by name (SKiDL de-duplicates by net name)
-V3P3_pt = Net.get("+3V3_AUX")
-GND_pt  = Net.get("GND")
+# Ethernet
+import ethernet
+ethernet.build(nets)
 
+# USB hub + 4x USB-A
+import usb_hub
+usb_hub.build(nets)
+
+# M.2 slots
+import m2
+m2.build(nets)
+
+# HDMI
+import hdmi
+hdmi.build(nets)
+
+# PoE (optional, all DNP)
+import poe
+poe.build(nets)
+
+# RTC
 import rtc
-rtc.build(V3P3=V3P3_pt, GND=GND_pt, SDA=I2C_SDA, SCL=I2C_SCL, INT_N=Net("RTC_INT_N"))
+rtc.build(V3P3=nets["+3V3_AUX"], GND=nets["GND"],
+          SDA=nets["I2C0_SDA"], SCL=nets["I2C0_SCL"],
+          INT_N=nets["RTC_INT_N"])
 
-
-# ---------------------------------------------------------------------------
-# 3) User I/O
-# ---------------------------------------------------------------------------
-V5_pt = Net.get("+5V")
-
-import user_io as io_block
-
-io_block.build(
-    V3P3=V3P3_pt,
-    V5=V5_pt,
-    GND=GND_pt,
+# User I/O
+import user_io
+user_io.build(
+    V3P3=nets["+3V3_AUX"],
+    V5=nets["+5V"],
+    GND=nets["GND"],
     SIGNALS={
-        # These are the placeholder signal names that will get wired to
-        # the Radxa CM5 SoM connector (J1/J2) when that sub-block is
-        # authored.  They already show up in the netlist as unresolved
-        # nets that are easy to find in Pcbnew ratsnest.
-        "RESET_N":   Net("CM5_RUN_N"),
-        "RECOVERY":  Net("CM5_MASKROM"),
-        "LED_SYS":   Net("CM5_GPIO_STATUS"),
-        "LED_LNK1":  Net("PHY1_LED_ACT"),
-        "LED_LNK2":  Net("PHY2_LED_ACT"),
-        "LED_NVME":  Net("NVME_ACT_N"),
-        "FAN_TACH":  Net("FAN_TACH"),
-        "FAN_PWM":   Net("FAN_PWM"),
+        "RESET_N":   nets["CM5_RUN_N"],
+        "RECOVERY":  nets["CM5_MASKROM"],
+        "LED_SYS":   nets["CM5_GPIO_STATUS"],
+        "LED_LNK1":  nets["ETH0_LED_ACT"],
+        "LED_LNK2":  nets["ETH1_LED_ACT"],
+        "LED_NVME":  nets["NVME_ACT_N"],
+        "FAN_TACH":  nets["FAN_TACH"],
+        "FAN_PWM":   nets["FAN_PWM"],
     },
 )
-
-
-# ---------------------------------------------------------------------------
-# TODO (next authoring sessions)
-# ---------------------------------------------------------------------------
-# - cm5.py       : Radxa CM5 SoM connectors J1/J2 (2 x DF40C-100DS-0.4V),
-#                  breaks out every power/signal pin per Radxa datasheet
-# - ethernet.py  : RJ45 #1 (CM5 native GbE via magnetics), RJ45 #2 (RTL8125)
-# - usb_hub.py   : GL3523 USB 3.0 hub + 4x USB-A + TPS2553 per-port switches
-# - m2.py        : M.2 M-key NVMe (2280) + M.2 E-key WiFi (2230), PCIe routing
-# - hdmi.py      : HDMI Type-A jack + PESD ESD array on 4 diff pairs
-# - poe.py       : Optional PoE PD circuit (DNP by default)
 
 
 # ---------------------------------------------------------------------------
