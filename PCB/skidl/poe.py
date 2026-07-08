@@ -42,8 +42,8 @@ def build(nets):
     # PoE injects ~48V DC across pins 1-2 vs 3-6 (mode A) or 4-5 vs 7-8 (mode B)
     # The center taps of the RJ45 magnetics carry the DC. We tie ETH0_CT_A/B
     # (already defined in ethernet.py) into the PoE bridge.
-    CT_A = Net.get("ETH0_CT_A")
-    CT_B = Net.get("ETH0_CT_B")
+    CT_A = Net("ETH0_CT_A")  # placeholder - would come from mag jack center tap
+    CT_B = Net("ETH0_CT_B")
 
     # ----- Bridge rectifier (accepts either polarity of PoE) -----------
     # 4x diodes in a bridge, e.g. HD01-T (SMB, 1A, 100V)
@@ -110,10 +110,10 @@ def build(nets):
               value="750317847 DNP",
               ref="T1",
               footprint="Transformer_SMD:Transformer_Wurth_750317847")
-    T1["L1.1"] += POE_VIN_POS
-    T1["L1.2"] += Net("PoE_SW")
-    T1["L2.1"] += Net("PoE_SEC_HI")
-    T1["L2.2"] += GND               # isolated: connects to system GND after rectifier
+    T1[1] += POE_VIN_POS
+    T1[2] += Net("PoE_SW")
+    T1[3] += Net("PoE_SEC_HI")
+    T1[5] += GND               # isolated: connects to system GND after rectifier
     # (real transformer symbol has 4 winding pins; use best-effort)
 
     # ----- Secondary rectifier + filter --------------------------------

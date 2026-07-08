@@ -239,6 +239,11 @@ user_io.build(
 )
 
 
+# Extras (heatsink mount, HDMI level shifter, more decoupling)
+import extras
+extras.build(nets)
+
+
 # ---------------------------------------------------------------------------
 # Emit netlist
 # ---------------------------------------------------------------------------
