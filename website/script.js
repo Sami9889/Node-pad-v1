@@ -154,54 +154,34 @@
   }
 
   /* ----------------------------------------
-     Copy email buttons
+     Email popup
   ---------------------------------------- */
-  var CONTACT_EMAIL = "admin@cernansky.xyz";
+  var emailOverlay = document.getElementById("emailOverlay");
+  var emailClose = document.getElementById("emailClose");
 
-  function doCopy(text) {
-    /* Try modern API first */
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        showToast("Copied: " + text);
-      }).catch(function () {
-        fallbackCopy(text);
-      });
-    } else {
-      fallbackCopy(text);
-    }
+  function showEmailPopup(e) {
+    if (e) e.preventDefault();
+    if (emailOverlay) emailOverlay.classList.add("is-visible");
   }
 
-  function fallbackCopy(text) {
-    var ta = document.createElement("textarea");
-    ta.value = text;
-    ta.style.cssText = "position:fixed;left:0;top:0;opacity:0;";
-    document.body.appendChild(ta);
-    ta.focus();
-    ta.select();
-    var ok = false;
-    try { ok = document.execCommand("copy"); } catch (e) {}
-    document.body.removeChild(ta);
-    if (ok) {
-      showToast("Copied: " + text);
-    } else {
-      showToast("Email: " + text);
-    }
-  }
-
-  /* Variant "Get notified" buttons */
-  document.querySelectorAll(".notify-btn").forEach(function (btn) {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      doCopy(CONTACT_EMAIL);
+  if (emailClose) {
+    emailClose.addEventListener("click", function () {
+      emailOverlay.classList.remove("is-visible");
     });
+  }
+  if (emailOverlay) {
+    emailOverlay.addEventListener("click", function (e) {
+      if (e.target === emailOverlay) emailOverlay.classList.remove("is-visible");
+    });
+  }
+
+  document.querySelectorAll(".notify-btn").forEach(function (btn) {
+    btn.addEventListener("click", showEmailPopup);
   });
 
-  /* Main CTA copy button */
   var copyEmailBtn = document.getElementById("copyEmailBtn");
   if (copyEmailBtn) {
-    copyEmailBtn.addEventListener("click", function () {
-      doCopy(CONTACT_EMAIL);
-    });
+    copyEmailBtn.addEventListener("click", showEmailPopup);
   }
 
   /* ----------------------------------------
