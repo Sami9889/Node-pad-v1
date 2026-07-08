@@ -183,7 +183,37 @@ nodepad/
 
 ---
 
-## ✅ Decisions locked in
+## Two variants
+
+| | **NodePad** (base) | **NodePad-Net** (networking) |
+|---|---|---|
+| **Compute** | Radxa CM5 (8-core RK3588S2 + Mali-G610 GPU + 6 TOPS NPU) | Same |
+| **Ethernet** | 1× 1 GbE (native) + 1× 2.5 GbE (RTL8125) | 1× 1 GbE + **2× 2.5 GbE** (2× RTL8125) |
+| **Fiber** | — | **1× SFP cage** (1G SGMII) |
+| **NVMe** | 1× M.2 M-key 2280 | 1× M.2 M-key 2280 |
+| **WiFi slot** | 1× M.2 E-key 2230 | ❌ (PCIe1 used for 2nd NIC) |
+| **HDMI** | 1× HDMI 2.0 | ❌ (headless appliance) |
+| **USB** | 4× USB-A 3.0 (GL3523 hub) | 2× USB-A 3.0 |
+| **PoE** | Footprint-only (DNP) | Footprint-only (DNP) |
+| **Netlist stats** | 230 comps, 239 nets, 0 ERC errors | 219 comps, 227 nets, 0 ERC errors |
+| **Sell target** | $99 empty / $199 with CM5 | $129 empty / $229 with CM5 |
+
+Both share the same 100 × 100 mm 4-layer PCB scaffold; the SKiDL blocks
+compose differently to build each variant's netlist.
+
+### About the CPU + GPU
+
+The CPU (8-core Cortex-A76/A55) and GPU (Mali-G610 MP4) live **on the
+Radxa CM5 module itself** — we don't design them into the carrier
+board. That's the entire point of using a SoM: you buy the pre-built
+compute module for $89 and skip the ~$1000-per-chip BGA design effort.
+The carrier board's job is just to break out the CM5's I/O to the
+connectors, feed it power, and add the peripherals (Ethernet, USB,
+NVMe, SFP, etc.).
+
+---
+
+
 
 | # | Decision | Choice |
 |---|---|---|
