@@ -120,9 +120,53 @@
   }
 
   /* ----------------------------------------
-     Contact form -> mailto:
+     Toast helper
+  ---------------------------------------- */
+  var toastEl = document.getElementById("toast");
+  var toastTimer;
+  function showToast(msg) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add("is-visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("is-visible"); }, 3000);
+  }
+
+  /* ----------------------------------------
+     Copy-to-clipboard helper
+  ---------------------------------------- */
+  function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        showToast("Copied: " + text);
+      });
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      showToast("Copied: " + text);
+    }
+  }
+
+  /* ----------------------------------------
+     "Get notified" buttons -> copy email
   ---------------------------------------- */
   var CONTACT_EMAIL = "ttt600161@gmail.com";
+  document.querySelectorAll(".notify-btn").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      copyToClipboard(CONTACT_EMAIL);
+    });
+  });
+
+  /* ----------------------------------------
+     Contact form -> copy email
+  ---------------------------------------- */
   var contactForm = document.getElementById("contactForm");
   var formStatus = document.getElementById("formStatus");
 
@@ -147,11 +191,17 @@
 
       var subject = "NodePad interest: " + interest + " (" + name + ")";
       var body = "Name: " + name + "\nEmail: " + email + "\nInterest: " + interest;
+
+      /* Try mailto (works on phones with mail app) */
       var mailtoLink = "mailto:" + encodeURIComponent(CONTACT_EMAIL) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-      window.location.href = mailtoLink;
+      var opened = false;
+      try { opened = window.open(mailtoLink); } catch (err) {}
+
+      /* Always copy email to clipboard as fallback */
+      copyToClipboard(CONTACT_EMAIL);
 
       formStatus.classList.remove("is-error");
-      formStatus.textContent = "Opening your email app...";
+      formStatus.textContent = opened ? "Opening your email app..." : "Email copied to clipboard — send us a message!";
       contactForm.reset();
     });
   }
