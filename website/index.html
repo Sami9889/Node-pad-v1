@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NodePad — A Tiny, Powerful Homelab Node</title>
+<meta name="description" content="NodePad is a 100×100mm carrier board for the Radxa CM5 with dual 2.5GbE, NVMe, PoE, and more I/O than a Pi 5.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">⬡</span>
+      <span class="brand-text">node<span class="brand-underscore">_</span>pad</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Primary">
+      <a href="#features">Features</a>
+      <a href="#specs">Specs</a>
+      <a href="#variants">Variants</a>
+      <a href="#bom">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact" class="nav-cta">Get Notified</a>
+    </nav>
+    <div class="header-right">
+      <span class="status-pill" id="statusPill">
+        <span class="status-dot" aria-hidden="true"></span>
+        Design phase
+      </span>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-3d-canvas" id="heroCanvas"></div>
+    <div class="hero-overlay"></div>
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">// open-hardware carrier board</p>
+        <h1>A tiny node with<br>serious I/O.</h1>
+        <p class="hero-sub">
+          A 100 × 100 mm carrier board for the Radxa CM5 — 8-core RK3588S2,
+          dual 2.5 GbE, native NVMe, and optional PoE. More power than a
+          Pi 5, smaller than your palm.
+        </p>
+        <div class="hero-actions">
+          <a href="#features" class="btn btn-primary">See the specs</a>
+          <a href="#contact" class="btn btn-ghost">Get notified</a>
+        </div>
+        <ul class="hero-stats" aria-label="Key metrics">
+          <li><span class="stat-num">100mm</span><span class="stat-label">Board size</span></li>
+          <li><span class="stat-num">8-core</span><span class="stat-label">RK3588S2</span></li>
+          <li><span class="stat-num">2×2.5G</span><span class="stat-label">Ethernet</span></li>
+          <li><span class="stat-num">$99</span><span class="stat-label">Target price</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <div class="terminal" role="img" aria-label="Terminal showing NodePad boot sequence">
+          <div class="terminal-bar">
+            <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+            <span class="terminal-title">nodepad — serial console</span>
+          </div>
+          <div class="terminal-body" id="terminalBody" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <div class="wrap">
+      <p class="section-eyebrow">// killer features</p>
+      <h2 class="section-title">Why NodePad exists</h2>
+      <p class="section-sub">The Pi 5 is great. This is better for homelabs. More cores, more Ethernet, native NVMe, and PoE — all on a 100mm square board.</p>
+
+      <div class="features-grid">
+        <div class="feature">
+          <span class="feature-icon">⚡</span>
+          <h3>Dual 2.5 GbE</h3>
+          <p>One built into the CM5, second via RTL8125BG. Run it as a router, K3s node, or dedicated cluster interconnect.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">💾</span>
+          <h3>Native NVMe</h3>
+          <p>M.2 M-key 2280 slot on-board. Real SSDs, no microSD lottery, no HAT required.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">🔌</span>
+          <h3>PoE+ Optional</h3>
+          <p>Populate the MP8007 PD circuit for 802.3at 25W. Leave it off for cheaper builds. One cable does power + data.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">🔋</span>
+          <h3>USB-C PD Input</h3>
+          <p>CH224K negotiates 12V/15V/20V from any PD charger. No barrel jack, no wall wart.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">🧠</span>
+          <h3>6 TOPS NPU</h3>
+          <p>The RK3588S2's built-in NPU for edge AI, object detection, and local inference workloads.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">📐</span>
+          <h3>100 × 100 mm</h3>
+          <p>Cheapest JLCPCB tier. Fits in a 3D-printed cube smaller than a Pi 5. Stack four of them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="section section--alt" id="specs">
+    <div class="wrap">
+      <p class="section-eyebrow">// the pitch</p>
+      <h2 class="section-title">NodePad vs Pi 5</h2>
+      <p class="section-sub">Buy 4, stack them, run K3s on PoE.</p>
+
+      <div class="comparison-table-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Pi 5</th>
+              <th class="col-highlight">NodePad (CM5)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CPU</td>
+              <td>4× Cortex-A76 @ 2.4 GHz</td>
+              <td class="col-highlight"><strong>8×</strong> (4×A76 + 4×A55) @ 2.4 GHz</td>
+            </tr>
+            <tr>
+              <td>GPU</td>
+              <td>VideoCore VII</td>
+              <td class="col-highlight"><strong>Mali-G610 MP4</strong></td>
+            </tr>
+            <tr>
+              <td>NPU</td>
+              <td>—</td>
+              <td class="col-highlight"><strong>6 TOPS</strong></td>
+            </tr>
+            <tr>
+              <td>Max RAM</td>
+              <td>8 GB</td>
+              <td class="col-highlight">16 GB</td>
+            </tr>
+            <tr>
+              <td>Ethernet</td>
+              <td>1× 1 GbE</td>
+              <td class="col-highlight"><strong>2× 2.5 GbE</strong></td>
+            </tr>
+            <tr>
+              <td>NVMe</td>
+              <td>Via HAT</td>
+              <td class="col-highlight"><strong>Native M.2 on-board</strong></td>
+            </tr>
+            <tr>
+              <td>PoE</td>
+              <td>HAT (~$20)</td>
+              <td class="col-highlight"><strong>On-board (optional)</strong></td>
+            </tr>
+            <tr>
+              <td>Boot</td>
+              <td>microSD</td>
+              <td class="col-highlight"><strong>eMMC on module</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- VARIANTS -->
+  <section class="section" id="variants">
+    <div class="wrap">
+      <p class="section-eyebrow">// two SKUs</p>
+      <h2 class="section-title">Pick your NodePad</h2>
+      <p class="section-sub">Same 100×100mm 4-layer PCB scaffold. Different I/O composition.</p>
+
+      <div class="variants-grid">
+        <article class="variant-card">
+          <div class="variant-header">
+            <h3>NodePad</h3>
+            <span class="variant-tag">Base</span>
+          </div>
+          <p class="variant-desc">The general-purpose homelab node. HDMI, 4× USB 3.0, WiFi slot, and a single 2.5GbE uplink.</p>
+          <ul class="variant-specs">
+            <li>1× 1 GbE + 1× 2.5 GbE</li>
+            <li>1× M.2 M-key NVMe (2280)</li>
+            <li>1× M.2 E-key WiFi/BT (2230)</li>
+            <li>1× HDMI 2.0</li>
+            <li>4× USB-A 3.0</li>
+            <li>40-pin GPIO (Pi-compatible)</li>
+            <li>PoE footprint (DNP)</li>
+          </ul>
+          <div class="variant-price">
+            <span class="price-amount">$99</span><span class="price-period">empty</span>
+          </div>
+          <a href="#contact" class="btn btn-outline">Get notified</a>
+        </article>
+
+        <article class="variant-card variant-card--popular">
+          <span class="variant-badge">Networking</span>
+          <div class="variant-header">
+            <h3>NodePad-Net</h3>
+            <span class="variant-tag">Pro</span>
+          </div>
+          <p class="variant-desc">The network appliance. Triple Ethernet, SFP cage, headless — built for routers, firewalls, and K3s clusters.</p>
+          <ul class="variant-specs">
+            <li>1× 1 GbE + <strong>2× 2.5 GbE</strong></li>
+            <li>1× SFP cage (1G SGMII)</li>
+            <li>1× M.2 M-key NVMe (2280)</li>
+            <li>No HDMI (headless)</li>
+            <li>2× USB-A 3.0</li>
+            <li>PoE footprint (DNP)</li>
+          </ul>
+          <div class="variant-price">
+            <span class="price-amount">$129</span><span class="price-period">empty</span>
+          </div>
+          <a href="#contact" class="btn btn-primary">Get notified</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOM / PRICING -->
+  <section class="section section--alt" id="bom">
+    <div class="wrap">
+      <p class="section-eyebrow">// cost breakdown</p>
+      <h2 class="section-title">Built to be affordable</h2>
+      <p class="section-sub">Every part picked for JLCPCB's assembly service. No hand-soldering, no exotic components.</p>
+
+      <div class="pricing-cards">
+        <div class="pricing-card">
+          <h3>Base Board</h3>
+          <p class="pricing-subtitle">No PoE, fully assembled</p>
+          <div class="pricing-breakdown">
+            <div class="pricing-row"><span>4-layer PCB (100×100mm)</span><span>$2.50</span></div>
+            <div class="pricing-row"><span>JLC PCBA assembly</span><span>$8.00</span></div>
+            <div class="pricing-row"><span>Components (qty 10)</span><span>~$26.00</span></div>
+            <div class="pricing-row pricing-row--total"><span>Empty board total</span><span>$36.50</span></div>
+            <div class="pricing-row"><span>+ Radxa CM5 8GB</span><span>$89.00</span></div>
+            <div class="pricing-row pricing-row--total pricing-row--final"><span>All-in cost</span><span>$125.50</span></div>
+          </div>
+          <p class="pricing-sell">Sell target: <strong>$99</strong> empty / <strong>$199</strong> with CM5</p>
+        </div>
+
+        <div class="pricing-card pricing-card--highlight">
+          <h3>Full Board (PoE)</h3>
+          <p class="pricing-subtitle">With PoE+ PD circuit populated</p>
+          <div class="pricing-breakdown">
+            <div class="pricing-row"><span>4-layer PCB (100×100mm)</span><span>$2.50</span></div>
+            <div class="pricing-row"><span>JLC PCBA assembly</span><span>$9.00</span></div>
+            <div class="pricing-row"><span>Components (qty 10)</span><span>~$32.00</span></div>
+            <div class="pricing-row pricing-row--total"><span>Empty board total</span><span>$43.50</span></div>
+            <div class="pricing-row"><span>+ Radxa CM5 8GB</span><span>$89.00</span></div>
+            <div class="pricing-row pricing-row--total pricing-row--final"><span>All-in cost</span><span>$132.50</span></div>
+          </div>
+          <p class="pricing-sell">Sell target: <strong>$129</strong> empty / <strong>$219</strong> with CM5</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATUS / ROADMAP -->
+  <section class="section" id="roadmap">
+    <div class="wrap">
+      <p class="section-eyebrow">// progress</p>
+      <h2 class="section-title">Where we are</h2>
+      <p class="section-sub">Design phase — schematic & PCB not started yet.</p>
+
+      <div class="roadmap-grid">
+        <div class="roadmap-item roadmap-item--done">
+          <span class="roadmap-dot"></span>
+          <div>
+            <h3>Design brief locked</h3>
+            <p>Board outline, stackup, design rules, BOM with LCSC part numbers.</p>
+          </div>
+        </div>
+        <div class="roadmap-item roadmap-item--done">
+          <span class="roadmap-dot"></span>
+          <div>
+            <h3>KiCad project scaffold</h3>
+            <p>100×100mm outline, 4× M2.5 mounting holes, 4-layer stackup, net classes.</p>
+          </div>
+        </div>
+        <div class="roadmap-item roadmap-item--next">
+          <span class="roadmap-dot"></span>
+          <div>
+            <h3>Schematic capture</h3>
+            <p>Power tree, CM5 connectors, RTL8125 NIC, M.2 slots, USB hub, HDMI, GPIO.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-dot"></span>
+          <div>
+            <h3>PCB layout & routing</h3>
+            <p>Placement, high-speed routing (PCIe, USB3, 2.5GbE), DRC clean.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-dot"></span>
+          <div>
+            <h3>Prototype & rev 2</h3>
+            <p>Order 5 from JLCPCB, bring-up, fix bugs, sellable rev 2 spin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--alt" id="faq">
+    <div class="wrap wrap--narrow">
+      <p class="section-eyebrow">// questions</p>
+      <h2 class="section-title">Frequently asked</h2>
+
+      <div class="accordion" id="accordion">
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            Why a carrier board instead of a full SBC?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>The Radxa CM5 module already has the CPU, RAM, eMMC, and GPU designed in. We skip the ~$1000-per-chip BGA design effort and focus purely on I/O: Ethernet, NVMe, USB, PoE. Faster to market, cheaper to manufacture.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            Can I run K3s on a stack of these?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>That's the entire point. Buy 4 NodePad-Net boards, connect them via the 2.5GbE ports, power them all with PoE, and you have a 32-core K3s cluster the size of a paperback book.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            What's the timeline?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>~3 months part-time to a rev-2 sellable board. Schematic capture and PCB layout are front-loaded in the first 2–3 weeks. Expect at least one rev-2 spin to fix prototype bugs — every serious hardware product does this.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            Is the design open source?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>Planning CERN-OHL-P v2 (permissive open-hardware license). KiCad files, gerbers, BOM, and case CAD will all be public. You can manufacture your own or buy pre-assembled.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            What about high-speed routing — PCIe, USB 3.0, 2.5GbE?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>Those benefit massively from human review before spending money on prototypes. The schematic can be generated, but differential-pair routing for 2.5GbE and PCIe Gen 2 needs careful impedance control. Plan for at least one rev-2 spin.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            Why not just buy a Turing Pi 2?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>Turing Pi 2 is $260 for a 4-node CM4 carrier. NodePad is $99 for a single node with better I/O (2.5GbE, NVMe, PoE). Different niches: Turing Pi is a pre-built cluster board; NodePad is a cheap, flexible single node you compose yourself.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--cta" id="contact">
+    <div class="wrap">
+      <div class="cta-box">
+        <div class="cta-copy">
+          <p class="section-eyebrow">// design phase</p>
+          <h2 class="section-title">Follow the build</h2>
+          <p class="section-sub">Drop your email to get notified when prototypes are ready. No spam — just build updates and launch day.</p>
+        </div>
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-row">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="interest">Interested in</label>
+            <select id="interest" name="interest">
+              <option>NodePad (Base)</option>
+              <option>NodePad-Net (Networking)</option>
+              <option>Both / Not sure</option>
+              <option>Custom cluster order</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Notify me</button>
+          <p class="form-hint">We'll email you when prototypes drop. That's it.</p>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <a href="#top" class="brand">
+        <span class="brand-mark" aria-hidden="true">⬡</span>
+        <span class="brand-text">node<span class="brand-underscore">_</span>pad</span>
+      </a>
+      <p>A tiny, cheap, more-powerful-than-a-Pi homelab node. Open hardware, CERN-OHL-P v2.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="#features">Features</a>
+      <a href="#specs">Specs</a>
+      <a href="#variants">Variants</a>
+      <a href="#bom">Pricing</a>
+    </div>
+    <div class="footer-col">
+      <h4>Project</h4>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#faq">FAQ</a>
+      <a href="#">GitHub (coming soon)</a>
+    </div>
+    <div class="footer-col">
+      <h4>Author</h4>
+      <p class="footer-author">Samrath "Sami" Singh</p>
+      <a href="#">KiCad files (coming soon)</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>&copy; <span id="year"></span> NodePad. Open hardware — CERN-OHL-P v2.</p>
+    <p>Built with pure HTML, CSS &amp; JavaScript. No frameworks.</p>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
