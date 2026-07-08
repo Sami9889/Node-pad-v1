@@ -79,7 +79,7 @@ def build(nets):
 
     # RJ45 #3
     J21 = Part("Connector", "RJ45", value="RJ45-2.5G-#3", ref="J21",
-               footprint="Connector_RJ:RJ45_Amphenol_RJHSE538X_Horizontal")
+               footprint="Connector_RJ:RJ45_Amphenol_RJHSE538X-02")
     J21[1] += nets["ETH2_MDI0_P"]; J21[2] += nets["ETH2_MDI0_N"]
     J21[3] += nets["ETH2_MDI1_P"]; J21[6] += nets["ETH2_MDI1_N"]
     J21[4] += nets["ETH2_MDI2_P"]; J21[5] += nets["ETH2_MDI2_N"]

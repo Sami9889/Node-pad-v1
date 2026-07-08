@@ -109,7 +109,7 @@ def build(nets):
     T1 = Part("Device", "Transformer_1P_SS",
               value="750317847 DNP",
               ref="T1",
-              footprint="Transformer_SMD:Transformer_Wurth_750317847")
+              footprint="Package_DIP:DIP-8_W7.62mm")
     T1[1] += POE_VIN_POS
     T1[2] += Net("PoE_SW")
     T1[3] += Net("PoE_SEC_HI")

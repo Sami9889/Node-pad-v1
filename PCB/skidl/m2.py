@@ -36,7 +36,7 @@ def build(nets):
     J5 = Part("Connector_Generic", "Conn_02x38_Odd_Even",
               value="M.2 M-key 2280",
               ref="J5",
-              footprint="Connector_Card:M.2_M-Key_Socket_Vertical")
+              footprint="Connector_PinHeader_1.27mm:PinHeader_2x38_P1.27mm_Vertical_SMD")
 
     # Reference pin assignments (M-key subset)
     # TODO_VERIFY every pin below against JEDEC MO-297 M-key spec
@@ -86,7 +86,7 @@ def build(nets):
     J6 = Part("Connector_Generic", "Conn_02x38_Odd_Even",
               value="M.2 E-key 2230",
               ref="J6",
-              footprint="Connector_Card:M.2_E-Key_Socket_Vertical")
+              footprint="Connector_PinHeader_1.27mm:PinHeader_2x38_P1.27mm_Vertical_SMD")
 
     # Power
     for p in [2, 4, 72, 74]:

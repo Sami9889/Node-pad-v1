@@ -44,7 +44,7 @@ def build(V3P3, GND, SDA, SCL, INT_N=None):
     BT1 = Part("Device", "Battery_Cell",
                value="CR2032",
                ref="BT1",
-               footprint="Battery:BatteryHolder_Keystone_3002")
+               footprint="Battery:BatteryHolder_Keystone_3002_1x2032")
 
     VBAT = Net("V_BAT")
 

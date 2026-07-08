@@ -37,7 +37,7 @@ def build_usb3_port(ref_j, ref_switch, V5, GND, stx_p, stx_n, srx_p, srx_n,
     """USB3 Type-A vertical jack + TPS2553 placeholder + TVS."""
 
     J = Part("Connector", "USB3_A", value="USB3-A", ref=ref_j,
-             footprint="Connector_USB:USB3_A_Molex_48393-0002_Horizontal")
+             footprint="Connector_USB:USB3_A_Molex_48393-001")
     vbus = Net(f"VBUS_{ref_j}")
     J["VBUS"] += vbus
     J["GND"]  += GND
@@ -80,7 +80,7 @@ def build(nets):
     U10 = Part("Connector_Generic", "Conn_02x44_Row_Letter_Last",
                value="GL3523",
                ref="U10",
-               footprint="Package_DFN_QFN:QFN-88_10x10mm_P0.4mm")
+               footprint="Package_DFN_QFN:ArtInChip_QFN-88-1EP_10x10mm_P0.4mm_EP6.74x6.74mm")
 
     # Upstream port  TODO_VERIFY
     _c(U10, 1, nets["USB3_TX_P"]);  _c(U10, 2, nets["USB3_TX_N"])

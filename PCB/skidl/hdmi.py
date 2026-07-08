@@ -30,7 +30,7 @@ def build(nets):
     J12 = Part("Connector", "HDMI_A",
                value="HDMI",
                ref="J12",
-               footprint="Connector_HDMI:HDMI_A_Molex_47151-1005_Horizontal")
+               footprint="Connector_Video:HDMI_A_Molex_208658-1001_Horizontal")
 
     # TMDS pairs (differential, CM5 side)
     J12["D2+"] += nets["HDMI_TX2_P"]; J12["D2-"] += nets["HDMI_TX2_N"]

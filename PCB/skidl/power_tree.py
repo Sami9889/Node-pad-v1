@@ -94,7 +94,7 @@ J7["SBU2"] += Net("USB_SBU2")   # unused for now
 U5 = Part("Connector_Generic", "Conn_01x10",  # placeholder; real symbol added in Rev 2
           value="CH224K",
           ref="U5",
-          footprint="Package_SO:ESSOP-10_3x3mm_P0.5mm")
+          footprint="Package_SO:VSSOP-10_3x3mm_P0.5mm")
 # For the placeholder we treat pin 1..10 as CH224K pinout:
 #   1  VBUS_IN     (from USB-C VBUS after ESD)
 #   2  VBUS_OUT    (regulated VIN_12V)
@@ -147,7 +147,7 @@ D_esd_vbus[2] += GND
 U3 = Part("Connector_Generic", "Conn_01x08",   # placeholder for MP2315 (SOT-563-8)
           value="MP2315",
           ref="U3",
-          footprint="Package_SO:SOT-563_1.6x1.6mm_P0.5mm")
+          footprint="Package_TO_SOT_SMD:SOT-563")
 # MP2315 pinout:
 #   1  BST      (bootstrap cap to SW)
 #   2  IN       (VIN)
@@ -171,7 +171,7 @@ R_en[1] += VIN_12V; R_en[2] += U3[6]
 
 # Switch node + inductor + bootstrap
 L1 = L(value="4.7uH/3A", ref="L1",
-       footprint="Inductor_SMD:L_Bourns_SRP1265A")
+       footprint="Inductor_SMD:L_Bourns_SRR1208_12.7x12.7mm")
 U3[3] += SW_NODE
 L1[1]  += SW_NODE
 L1[2]  += V5

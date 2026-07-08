@@ -38,10 +38,10 @@ def build(nets):
     _NC = Net("__NC__")
     J1 = Part("Connector_Generic", "Conn_02x50_Row_Letter_Last",
               value="CM5-J1", ref="J1",
-              footprint="Connector_Hirose:Hirose_DF40C-100DS-0.4V_1x100-1MP_P0.40mm_Vertical")
+              footprint="Connector_Hirose:Hirose_BM24_BM24-40DS-2-0.35V_2x20_P0.35mm_PowerPin2_Vertical")
     J2 = Part("Connector_Generic", "Conn_02x50_Row_Letter_Last",
               value="CM5-J2", ref="J2",
-              footprint="Connector_Hirose:Hirose_DF40C-100DS-0.4V_1x100-1MP_P0.40mm_Vertical")
+              footprint="Connector_Hirose:Hirose_BM24_BM24-40DS-2-0.35V_2x20_P0.35mm_PowerPin2_Vertical")
 
     GND  = nets["GND"]
     V5   = nets["+5V"]

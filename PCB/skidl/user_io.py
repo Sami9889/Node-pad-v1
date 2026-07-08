@@ -36,7 +36,7 @@ def build_button(net_signal, GND, ref, value="Reset"):
     SW = Part("Switch", "SW_Push",
               value=value,
               ref=ref,
-              footprint="Button_Switch_SMD:SW_SPST_TL3305")
+              footprint="Button_Switch_SMD:SW_SPST_TL3305A")
     SW[1] += net_signal
     SW[2] += GND
     # Small pull-up should exist on the CM5 side, but add one here as belt+braces

@@ -30,7 +30,7 @@ C = Part("Device", "C", dest=TEMPLATE, footprint="Capacitor_SMD:C_0402_1005Metri
 def build_rj45(ref, mdi, V3P3, GND, LED_ACT, LED_LNK, chassis_gnd):
     """Plain 8-pin RJ45 + separate placeholder magnetics + Bob Smith termination."""
     J = Part("Connector", "RJ45", value="RJ45", ref=ref,
-             footprint="Connector_RJ:RJ45_Amphenol_RJHSE538X_Horizontal")
+             footprint="Connector_RJ:RJ45_Amphenol_RJHSE538X-02")
 
     # -- Wire 4 MDI pairs to jack pins 1-8 (per T568B) -----------------
     # 1/2 pair 1, 3/6 pair 2, 4/5 pair 3, 7/8 pair 4
