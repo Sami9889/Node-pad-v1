@@ -122,7 +122,7 @@
   /* ----------------------------------------
      Contact form -> mailto:
   ---------------------------------------- */
-  var CONTACT_EMAIL = "hello@nodepad.dev";
+  var CONTACT_EMAIL = "ttt600161@gmail.com";
   var contactForm = document.getElementById("contactForm");
   var formStatus = document.getElementById("formStatus");
 
