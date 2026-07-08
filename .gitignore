@@ -5,3 +5,18 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+# SKiDL scratch files
+skidl.erc
+skidl.log
+skidl_REPL.*
+*.erc
+*.log
+
+# KiCad local project state
+*.kicad_prl
+*-backups/
+
+# Python
+__pycache__/
+*.pyc

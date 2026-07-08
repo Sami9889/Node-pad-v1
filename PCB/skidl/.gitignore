@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.erc
+*.log
+*_sklib.py
+netlists/*.xml
