@@ -209,51 +209,79 @@
   camera.position.set(0, 3, 8);
   camera.lookAt(0, 0.5, 0);
 
-  var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
   renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 0);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.1;
+  renderer.toneMappingExposure = 1.3;
   renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.physicallyCorrectLights = true;
   canvasContainer.appendChild(renderer.domElement);
 
-  /* Lights */
-  var ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
+  /* Lights — studio-style 3-point + accent */
+  var ambientLight = new THREE.AmbientLight(0xffffff, 0.25);
   scene.add(ambientLight);
-  var dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
-  dirLight.position.set(5, 10, 5);
-  dirLight.castShadow = true;
-  scene.add(dirLight);
-  var fillLight = new THREE.DirectionalLight(0x88aaff, 0.3);
-  fillLight.position.set(-5, 3, -3);
+  /* Key light */
+  var keyLight = new THREE.DirectionalLight(0xffeedd, 1.0);
+  keyLight.position.set(6, 12, 8);
+  scene.add(keyLight);
+  /* Fill light */
+  var fillLight = new THREE.DirectionalLight(0x8899cc, 0.4);
+  fillLight.position.set(-6, 5, -4);
   scene.add(fillLight);
-  var rimLight = new THREE.DirectionalLight(0x4f8dfd, 0.4);
-  rimLight.position.set(0, -2, -5);
+  /* Rim/back light */
+  var rimLight = new THREE.DirectionalLight(0x4488ff, 0.5);
+  rimLight.position.set(-2, 3, -8);
   scene.add(rimLight);
-  var pointLight = new THREE.PointLight(0x2dd4a7, 0.5, 15);
-  pointLight.position.set(-3, 5, 3);
-  scene.add(pointLight);
-  var warmLight = new THREE.PointLight(0xffaa44, 0.2, 10);
-  warmLight.position.set(4, 2, -2);
-  scene.add(warmLight);
+  /* Accent: teal under-glow */
+  var accentLight = new THREE.PointLight(0x2dd4a7, 0.6, 12);
+  accentLight.position.set(0, -3, 0);
+  scene.add(accentLight);
+  /* Warm spot from top-right */
+  var warmSpot = new THREE.SpotLight(0xffeedd, 0.3, 20, Math.PI / 6, 0.5);
+  warmSpot.position.set(5, 8, 3);
+  warmSpot.target.position.set(0, 0, 0);
+  scene.add(warmSpot);
+  scene.add(warmSpot.target);
 
-  /* ---- Materials ---- */
-  var pcbGreen = new THREE.MeshStandardMaterial({ color: 0x1a6b3c, roughness: 0.55, metalness: 0.15 });
-  var copperMat = new THREE.MeshStandardMaterial({ color: 0xc87533, roughness: 0.3, metalness: 0.65 });
-  var chipBlack = new THREE.MeshStandardMaterial({ color: 0x111118, roughness: 0.35, metalness: 0.25 });
-  var chipDark = new THREE.MeshStandardMaterial({ color: 0x1a1a28, roughness: 0.4, metalness: 0.2 });
-  var plasticBlack = new THREE.MeshStandardMaterial({ color: 0x1e1e2a, roughness: 0.6, metalness: 0.1 });
-  var metalBrushed = new THREE.MeshStandardMaterial({ color: 0x999999, roughness: 0.3, metalness: 0.85 });
-  var greenLedMat = new THREE.MeshStandardMaterial({ color: 0x2dd4a7, emissive: 0x2dd4a7, emissiveIntensity: 0.5, roughness: 0.3 });
-  var heatsinkMat = new THREE.MeshStandardMaterial({ color: 0x2a2a36, roughness: 0.25, metalness: 0.7 });
+  /* ---- Environment map for reflections ---- */
+  var envCanvas = document.createElement("canvas");
+  envCanvas.width = 256; envCanvas.height = 256;
+  var ectx = envCanvas.getContext("2d");
+  var grad = ectx.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0, "#1a2a4a");
+  grad.addColorStop(0.3, "#0a1020");
+  grad.addColorStop(0.6, "#060a14");
+  grad.addColorStop(1, "#000000");
+  ectx.fillStyle = grad;
+  ectx.fillRect(0, 0, 256, 256);
+  ectx.fillStyle = "rgba(100,150,255,0.15)";
+  ectx.beginPath(); ectx.arc(128, 60, 40, 0, Math.PI * 2); ectx.fill();
+  ectx.fillStyle = "rgba(45,212,167,0.08)";
+  ectx.beginPath(); ectx.arc(60, 180, 30, 0, Math.PI * 2); ectx.fill();
+  var envTex = new THREE.CanvasTexture(envCanvas);
+  envTex.mapping = THREE.EquirectangularReflectionMapping;
+
+  /* ---- Materials (photorealistic) ---- */
+  var pcbGreen = new THREE.MeshStandardMaterial({ color: 0x1a6b3c, roughness: 0.45, metalness: 0.1, envMap: envTex, envMapIntensity: 0.3 });
+  var copperMat = new THREE.MeshStandardMaterial({ color: 0xc87533, roughness: 0.2, metalness: 0.8, envMap: envTex, envMapIntensity: 0.6 });
+  var chipBlack = new THREE.MeshStandardMaterial({ color: 0x0e0e14, roughness: 0.15, metalness: 0.4, envMap: envTex, envMapIntensity: 0.5 });
+  var chipDark = new THREE.MeshStandardMaterial({ color: 0x161622, roughness: 0.2, metalness: 0.35, envMap: envTex, envMapIntensity: 0.4 });
+  var plasticBlack = new THREE.MeshStandardMaterial({ color: 0x1a1a24, roughness: 0.5, metalness: 0.05, envMap: envTex, envMapIntensity: 0.15 });
+  var metalBrushed = new THREE.MeshStandardMaterial({ color: 0xaaaaaa, roughness: 0.15, metalness: 0.95, envMap: envTex, envMapIntensity: 0.8 });
+  var greenLedMat = new THREE.MeshStandardMaterial({ color: 0x2dd4a7, emissive: 0x2dd4a7, emissiveIntensity: 0.8, roughness: 0.1, metalness: 0.1, envMap: envTex, envMapIntensity: 0.3 });
+  var heatsinkMat = new THREE.MeshStandardMaterial({ color: 0x282838, roughness: 0.15, metalness: 0.8, envMap: envTex, envMapIntensity: 0.7 });
 
   var components = [];
 
-  function addComponent(mesh, explodeDir, explodeDelay) {
+  function addComponent(mesh, pos, explodeDir, explodeDelay) {
+    mesh.position.set(pos[0], pos[1], pos[2]);
     mesh.userData.basePos = mesh.position.clone();
     mesh.userData.baseRot = mesh.rotation.clone();
-    mesh.userData.explodeDir = explodeDir.normalize();
+    mesh.userData.explodeDir = new THREE.Vector3(explodeDir[0], explodeDir[1], explodeDir[2]).normalize();
     mesh.userData.explodeDelay = explodeDelay || 0;
     scene.add(mesh);
     components.push(mesh);
@@ -268,7 +296,7 @@
      ============================================ */
   var BW = 5, BD = 5, BH = 0.12;
   var boardGeo = new THREE.BoxGeometry(BW, BH, BD);
-  var board = addComponent(new THREE.Mesh(boardGeo, pcbGreen), new THREE.Vector3(0, -1, 0), 0.8);
+  var board = addComponent(new THREE.Mesh(boardGeo, pcbGreen), [0, 0, 0], [0, -1, 0], 0.8);
 
   /* Traces */
   var traceMat = new THREE.MeshStandardMaterial({ color: 0xc87533, roughness: 0.3, metalness: 0.6 });
@@ -317,14 +345,11 @@
       var fin = B(0.025, 0.1, 1.2, heatsinkMat); fin.position.set(-0.8 + fi * 0.22, 0.26, 0); g.add(fin);
     }
     return g;
-  })(), new THREE.Vector3(0, 2.5, 0), 0);
-  cm5.position.set(0, BH/2 + 0.03, 0);
+  })(), [0, BH/2 + 0.03, 0], [0, 2.5, 0], 0);
 
   /* ---- SoM connectors (under CM5, north + south) ---- */
-  var somC1 = addComponent(B(2.0, 0.1, 0.14, plasticBlack), new THREE.Vector3(0, 1.8, 1.5), 0.05);
-  somC1.position.set(0, BH/2 + 0.05, 0.6);
-  var somC2 = addComponent(B(2.0, 0.1, 0.14, plasticBlack), new THREE.Vector3(0, 1.8, -1.5), 0.08);
-  somC2.position.set(0, BH/2 + 0.05, -0.6);
+  addComponent(B(2.0, 0.1, 0.14, plasticBlack), [0, BH/2 + 0.05, 0.6], [0, 1.8, 1.5], 0.05);
+  addComponent(B(2.0, 0.1, 0.14, plasticBlack), [0, BH/2 + 0.05, -0.6], [0, 1.8, -1.5], 0.08);
 
   /* ---- Dual RJ45 (front edge, left side) ---- */
   function makeRJ45() {
@@ -339,40 +364,28 @@
     ledY.position.set(0.1, 0.2, 0.36); g.add(ledY);
     return g;
   }
-  var rj1 = addComponent(makeRJ45(), new THREE.Vector3(-1, 1.5, 3), 0.15);
-  rj1.position.set(-1.2, BH/2 + 0.25, 2.3);
-  var rj2 = addComponent(makeRJ45(), new THREE.Vector3(0, 1.5, 3), 0.2);
-  rj2.position.set(-0.3, BH/2 + 0.25, 2.3);
+  addComponent(makeRJ45(), [-1.2, BH/2 + 0.25, 2.3], [-1, 1.5, 3], 0.15);
+  addComponent(makeRJ45(), [-0.3, BH/2 + 0.25, 2.3], [0, 1.5, 3], 0.2);
 
   /* ---- RTL8125 + 25MHz TCXO (left of CM5) ---- */
-  var nic = addComponent((function() {
-    var g = new THREE.Group();
-    g.add(B(0.5, 0.08, 0.5, chipDark));
-    return g;
-  })(), new THREE.Vector3(-2.5, 1.5, 0.5), 0.1);
-  nic.position.set(-1.8, BH/2 + 0.04, 1.5);
-
-  var tcxo = addComponent(B(0.1, 0.05, 0.07, metalBrushed), new THREE.Vector3(-2.5, 1.2, 1.2), 0.12);
-  tcxo.position.set(-1.3, BH/2 + 0.03, 1.8);
+  addComponent(B(0.5, 0.08, 0.5, chipDark), [-1.8, BH/2 + 0.04, 1.5], [-2.5, 1.5, 0.5], 0.1);
+  addComponent(B(0.1, 0.05, 0.07, metalBrushed), [-1.3, BH/2 + 0.03, 1.8], [-2.5, 1.2, 1.2], 0.12);
 
   /* ---- M.2 M-key NVMe (right of CM5) ---- */
-  var m2 = addComponent((function() {
+  addComponent((function() {
     var g = new THREE.Group();
     g.add(B(0.32, 0.05, 1.8, plasticBlack));
     var notch = B(0.06, 0.06, 0.1, new THREE.MeshStandardMaterial({ color: 0x040404 }));
     notch.position.set(0.15, 0.01, -0.45); g.add(notch);
     var notch2 = notch.clone(); notch2.position.z = 0.45; g.add(notch2);
     return g;
-  })(), new THREE.Vector3(2, 1.8, 0), 0.4);
-  m2.position.set(1.8, BH/2 + 0.025, 0);
+  })(), [1.8, BH/2 + 0.025, 0], [2, 1.8, 0], 0.4);
 
   /* ---- M.2 E-key WiFi (rear-left area) ---- */
-  var m2e = addComponent(B(0.28, 0.04, 0.8, plasticBlack), new THREE.Vector3(-2, 1.8, -1.5), 0.45);
-  m2e.position.set(-1.2, BH/2 + 0.02, -1.5);
+  addComponent(B(0.28, 0.04, 0.8, plasticBlack), [-1.2, BH/2 + 0.02, -1.5], [-2, 1.8, -1.5], 0.45);
 
   /* ---- USB hub GL3523 (between M.2 slots) ---- */
-  var hub = addComponent(B(0.28, 0.07, 0.28, chipDark), new THREE.Vector3(1.5, 1.5, -1), 0.33);
-  hub.position.set(0.8, BH/2 + 0.035, -0.8);
+  addComponent(B(0.28, 0.07, 0.28, chipDark), [0.8, BH/2 + 0.035, -0.8], [1.5, 1.5, -1], 0.33);
 
   /* ---- 4× USB-A 3.0 (rear edge, right side) ---- */
   function makeUSB3() {
@@ -383,36 +396,32 @@
     return g;
   }
   for (var u = 0; u < 4; u++) {
-    var ua = addComponent(makeUSB3(), new THREE.Vector3(2.5, 1, -1.5 + u * 0.38), 0.3 + u * 0.04);
-    ua.position.set(2.35, BH/2 + 0.09, -1.5 + u * 0.38);
+    addComponent(makeUSB3(), [2.35, BH/2 + 0.09, -1.5 + u * 0.38], [2.5, 1, -1.5 + u * 0.38], 0.3 + u * 0.04);
   }
 
   /* ---- HDMI (rear edge, left of USB) ---- */
-  var hdmi = addComponent((function() {
+  addComponent((function() {
     var g = new THREE.Group();
     g.add(B(0.52, 0.17, 0.58, metalBrushed));
     var port = B(0.36, 0.08, 0.1, new THREE.MeshStandardMaterial({ color: 0x060606 }));
     port.position.z = 0.3; g.add(port);
     return g;
-  })(), new THREE.Vector3(1, 1.5, -3), 0.35);
-  hdmi.position.set(0.8, BH/2 + 0.08, -2.3);
+  })(), [0.8, BH/2 + 0.08, -2.3], [1, 1.5, -3], 0.35);
 
   /* ---- USB-C power (rear edge, far left) ---- */
-  var usbc = addComponent((function() {
+  addComponent((function() {
     var g = new THREE.Group();
     g.add(B(0.34, 0.12, 0.38, metalBrushed));
     var port = B(0.2, 0.06, 0.08, new THREE.MeshStandardMaterial({ color: 0x060606 }));
     port.position.z = 0.2; g.add(port);
     return g;
-  })(), new THREE.Vector3(-1, 1.5, -3), 0.25);
-  usbc.position.set(-0.8, BH/2 + 0.06, -2.3);
+  })(), [-0.8, BH/2 + 0.06, -2.3], [-1, 1.5, -3], 0.25);
 
   /* ---- microSD (rear edge, near USB-C) ---- */
-  var sd = addComponent(B(0.3, 0.12, 0.35, new THREE.MeshStandardMaterial({ color: 0x3a3a48, roughness: 0.55 })), new THREE.Vector3(-1.8, 1.5, -2.8), 0.22);
-  sd.position.set(-1.5, BH/2 + 0.06, -2.2);
+  addComponent(B(0.3, 0.12, 0.35, new THREE.MeshStandardMaterial({ color: 0x3a3a48, roughness: 0.55 })), [-1.5, BH/2 + 0.06, -2.2], [-1.8, 1.5, -2.8], 0.22);
 
   /* ---- 40-pin GPIO header (rear edge, far right) ---- */
-  var gpio = addComponent((function() {
+  addComponent((function() {
     var g = new THREE.Group();
     g.add(B(1.6, 0.2, 0.24, plasticBlack));
     for (var p = 0; p < 20; p++) {
@@ -421,12 +430,10 @@
       var pin2 = pin.clone(); pin2.position.z = 0.035; g.add(pin2);
     }
     return g;
-  })(), new THREE.Vector3(0, 2, -3), 0.5);
-  gpio.position.set(-0.2, BH/2 + 0.1, -2.3);
+  })(), [-0.2, BH/2 + 0.1, -2.3], [0, 2, -3], 0.5);
 
   /* ---- PoE transformer (front-left area) ---- */
-  var poe = addComponent(B(0.4, 0.3, 0.4, new THREE.MeshStandardMaterial({ color: 0x2d2d2d, roughness: 0.6 })), new THREE.Vector3(-2.5, 1.5, 2.5), 0.55);
-  poe.position.set(-2, BH/2 + 0.15, 1.8);
+  addComponent(B(0.4, 0.3, 0.4, new THREE.MeshStandardMaterial({ color: 0x2d2d2d, roughness: 0.6 })), [-2, BH/2 + 0.15, 1.8], [-2.5, 1.5, 2.5], 0.55);
 
   /* ---- Power section: inductor + caps (front-right) ---- */
   var inductor = addComponent(B(0.35, 0.16, 0.35, new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.4, metalness: 0.5 })), new THREE.Vector3(2.5, 1.8, 2), 0.6);
@@ -440,11 +447,10 @@
   });
 
   /* ---- CH224K PD trigger (near USB-C) ---- */
-  var ch224 = addComponent(B(0.12, 0.05, 0.08, chipDark), new THREE.Vector3(-1, 1.2, -2), 0.28);
-  ch224.position.set(-1.2, BH/2 + 0.025, -1.8);
+  addComponent(B(0.12, 0.05, 0.08, chipDark), [-1.2, BH/2 + 0.025, -1.8], [-1, 1.2, -2], 0.28);
 
   /* ---- DS3231 RTC + CR2032 (left edge, center) ---- */
-  var rtc = addComponent((function() {
+  addComponent((function() {
     var g = new THREE.Group();
     g.add(B(0.2, 0.07, 0.16, chipDark));
     var holder = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.05, 12), metalBrushed);
@@ -452,14 +458,12 @@
     var batt = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.025, 12), new THREE.MeshStandardMaterial({ color: 0xc0c0c0, roughness: 0.2, metalness: 0.8 }));
     batt.position.set(0.28, 0.04, 0); g.add(batt);
     return g;
-  })(), new THREE.Vector3(-2.5, 1.5, -0.5), 0.65);
-  rtc.position.set(-2, BH/2 + 0.035, -0.8);
+  })(), [-2, BH/2 + 0.035, -0.8], [-2.5, 1.5, -0.5], 0.65);
 
   /* ---- Status LEDs (front-left corner) ---- */
   var ledColors = [greenLedMat, greenLedMat, new THREE.MeshStandardMaterial({ color: 0xff5555, emissive: 0xff5555, emissiveIntensity: 0.4 }), greenLedMat, new THREE.MeshStandardMaterial({ color: 0x4f8dfd, emissive: 0x4f8dfd, emissiveIntensity: 0.4 })];
   ledColors.forEach(function(mat, i) {
-    var led = addComponent(B(0.06, 0.05, 0.04, mat), new THREE.Vector3(-2 + i * 0.15, 2, 2.5), 0.7 + i * 0.03);
-    led.position.set(-2.2 + i * 0.15, BH/2 + 0.025, -2.2);
+    addComponent(B(0.06, 0.05, 0.04, mat), [-2.2 + i * 0.15, BH/2 + 0.025, -2.2], [-2 + i * 0.15, 2, 2.5], 0.7 + i * 0.03);
   });
 
   /* ---- Reset + Boot buttons (left edge) ---- */
@@ -470,16 +474,12 @@
     cap.position.y = 0.05; g.add(cap);
     return g;
   }
-  var btn1 = addComponent(makeBtn(), new THREE.Vector3(-2.5, 1.5, -1.5), 0.68);
-  btn1.position.set(-2.2, BH/2 + 0.035, -1.5);
-  var btn2 = addComponent(makeBtn(), new THREE.Vector3(-2.5, 1.5, -1.8), 0.7);
-  btn2.position.set(-2.2, BH/2 + 0.035, -1.8);
+  addComponent(makeBtn(), [-2.2, BH/2 + 0.035, -1.5], [-2.5, 1.5, -1.5], 0.68);
+  addComponent(makeBtn(), [-2.2, BH/2 + 0.035, -1.8], [-2.5, 1.5, -1.8], 0.7);
 
   /* ---- MP2315 + AP2112K (near power section) ---- */
-  var buck = addComponent(B(0.1, 0.04, 0.07, chipDark), new THREE.Vector3(2, 1.5, 1.5), 0.62);
-  buck.position.set(1.4, BH/2 + 0.02, 1.5);
-  var ldo = addComponent(B(0.08, 0.04, 0.05, chipDark), new THREE.Vector3(2, 1.5, 1.7), 0.63);
-  ldo.position.set(1.6, BH/2 + 0.02, 1.5);
+  addComponent(B(0.1, 0.04, 0.07, chipDark), [1.4, BH/2 + 0.02, 1.5], [2, 1.5, 1.5], 0.62);
+  addComponent(B(0.08, 0.04, 0.05, chipDark), [1.6, BH/2 + 0.02, 1.5], [2, 1.5, 1.7], 0.63);
 
   /* ---- SMD passives (clustered near real components) ---- */
   [[-0.7, 0.5], [-0.5, 0.5], [0.5, 0.5], [0.7, 0.5], [-0.7, -0.5], [-0.5, -0.5], [0.5, -0.5], [0.7, -0.5],
@@ -547,8 +547,8 @@
     /* Rotate based on mouse + scroll + idle spin */
     var baseRotY = 0.6 + mouseX * 0.15 + idleSpin;
     var baseRotX = -0.3 + mouseY * 0.1;
-    boardGroup.rotation.y = baseRotY + scrollProgress * 1.2;
-    boardGroup.rotation.x = baseRotX - scrollProgress * 0.4;
+    boardGroup.rotation.y = baseRotY + scrollProgress * 0.4;
+    boardGroup.rotation.x = baseRotX - scrollProgress * 0.15;
 
     /* Disassemble components */
     components.forEach(function (comp) {
