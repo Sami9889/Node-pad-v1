@@ -664,6 +664,81 @@ input, select, textarea { font: inherit; color: inherit; }
 }
 
 /* ============================================
+   About / What is it
+   ============================================ */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.about-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+}
+.about-card h3 { font-size: 1.05rem; margin-bottom: 8px; }
+.about-card p { color: var(--text-muted); font-size: 0.92rem; }
+.about-card strong { color: var(--text); }
+
+/* ============================================
+   Block Diagram
+   ============================================ */
+.diagram-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  overflow-x: auto;
+}
+.diagram {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  white-space: pre;
+  margin: 0;
+}
+
+/* ============================================
+   Design Decisions
+   ============================================ */
+.decisions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.decision {
+  padding: 24px 0;
+  border-top: 2px solid var(--border);
+}
+.decision-num {
+  display: block;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+.decision h3 { font-size: 1.05rem; margin-bottom: 8px; }
+.decision p { color: var(--text-muted); font-size: 0.92rem; }
+
+/* ============================================
+   What to expect
+   ============================================ */
+.expect-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.expect-item {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.expect-item:first-child { border-top: 1px solid var(--border-soft); }
+.expect-item h3 { font-size: 1.05rem; margin-bottom: 8px; }
+.expect-item p { color: var(--text-muted); font-size: 0.94rem; max-width: 60ch; }
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 980px) {
@@ -674,6 +749,8 @@ input, select, textarea { font: inherit; color: inherit; }
   .variants-grid { grid-template-columns: 1fr; }
   .pricing-cards { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-grid { grid-template-columns: 1fr; }
+  .decisions-grid { grid-template-columns: repeat(2, 1fr); }
   .cta-box { padding: 40px 28px; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
 }

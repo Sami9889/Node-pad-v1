@@ -22,9 +22,9 @@
     </a>
     <nav class="main-nav" id="mainNav" aria-label="Primary">
       <a href="#features">Features</a>
-      <a href="#specs">Specs</a>
+      <a href="#about">About</a>
       <a href="#variants">Variants</a>
-
+      <a href="#diagram">Architecture</a>
       <a href="#faq">FAQ</a>
       <a href="#contact" class="nav-cta">Get Notified</a>
     </nav>
@@ -262,6 +262,125 @@
           </div>
           <a href="#" class="btn btn-primary notify-btn">Get notified</a>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT IS NODEPAD -->
+  <section class="section section--alt" id="about">
+    <div class="wrap">
+      <p class="section-eyebrow">// what is it</p>
+      <h2 class="section-title">A carrier board for the Radxa CM5</h2>
+      <p class="section-sub">You skip designing the CPU/RAM/eMMC section (Radxa already did that) and get a compact server-class SBC with I/O aimed at self-hosting, homelab, mini-Kubernetes, edge servers, network appliances, and NAS-lite.</p>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>The pitch</h3>
+          <p>Think of it as a <strong>"buy 4, stack them, run K3s on PoE"</strong> kind of board. Two 2.5 GbE ports, native NVMe, optional PoE — all on a 100mm square that costs less than a Pi 5.</p>
+        </div>
+        <div class="about-card">
+          <h3>Why not just a Pi 5?</h3>
+          <p>The Pi 5 gives you 1 GbE and requires a HAT for NVMe. NodePad gives you <strong>2× 2.5 GbE</strong>, native M.2 NVMe, optional PoE, 6 TOPS NPU, and 8 cores — in a smaller form factor.</p>
+        </div>
+        <div class="about-card">
+          <h3>Open hardware</h3>
+          <p>Designed in KiCad, licensed CERN-OHL-P v2. Every file — schematic, PCB, BOM, gerbers, case CAD — will be public. Manufacture your own or buy pre-assembled.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCK DIAGRAM -->
+  <section class="section" id="diagram">
+    <div class="wrap">
+      <p class="section-eyebrow">// architecture</p>
+      <h2 class="section-title">How it all connects</h2>
+
+      <div class="diagram-wrap">
+        <pre class="diagram">
+┌──────────────────────────────────────────┐
+│        Radxa CM5 (RK3588S2)             │
+│   8-core • 8GB LPDDR4X • 64GB eMMC     │
+│   Native: 1 GbE, HDMI, USB3, PCIe, GPIO │
+└──┬────┬────┬────┬────┬────┬────┬────────┘
+   │    │    │    │    │    │    │
+   │    │    │    │    │    │    └── 40-pin GPIO
+   │    │    │    │    │    └── HDMI 2.0
+   │    │    │    │    └── 4× USB-A 3.0
+   │    │    │    └── M.2 E-key (WiFi/BT)
+   │    │    └── M.2 M-key (NVMe SSD)
+   │    └── RJ45 #1 (1 GbE native)
+   └── RTL8125BG → RJ45 #2 (2.5 GbE)
+
+   Power: USB-C PD (12/15/20V) or PoE+ (802.3at)
+        └─ MP2315 buck → 5V rail
+        └─ AP2112K LDO → 3.3V aux
+        </pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN DECISIONS -->
+  <section class="section section--alt" id="decisions">
+    <div class="wrap">
+      <p class="section-eyebrow">// why this way</p>
+      <h2 class="section-title">Design decisions</h2>
+
+      <div class="decisions-grid">
+        <div class="decision">
+          <span class="decision-num">01</span>
+          <h3>PoE is optional</h3>
+          <p>Footprint-only. Populate the MP8007 PD circuit for 802.3at 25W PoE, or leave it off for cheaper builds. One cable does power + data.</p>
+        </div>
+        <div class="decision">
+          <span class="decision-num">02</span>
+          <h3>2.5 GbE, not 1 GbE</h3>
+          <p>RTL8125BG adds a second NIC via PCIe. Enough bandwidth for a router, K3s node, or dedicated cluster interconnect.</p>
+        </div>
+        <div class="decision">
+          <span class="decision-num">03</span>
+          <h3>eMMC, not microSD</h3>
+          <p>Boot from the CM5's onboard eMMC. No microSD lottery, no HAT required. microSD kept as fallback only.</p>
+        </div>
+        <div class="decision">
+          <span class="decision-num">04</span>
+          <h3>USB-C PD input</h3>
+          <p>CH224K negotiates 12V/15V/20V from any PD charger. No barrel jack, no wall wart headache.</p>
+        </div>
+        <div class="decision">
+          <span class="decision-num">05</span>
+          <h3>100 × 100 mm</h3>
+          <p>Cheapest JLCPCB tier. Fits in a 3D-printed cube smaller than a Pi 5. Stack four of them for a cluster.</p>
+        </div>
+        <div class="decision">
+          <span class="decision-num">06</span>
+          <h3>Pi-compatible GPIO</h3>
+          <p>40-pin header with the same pinout as the Pi. Existing HATs and accessories work out of the box.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT TO EXPECT -->
+  <section class="section" id="expect">
+    <div class="wrap wrap--narrow">
+      <p class="section-eyebrow">// honest take</p>
+      <h2 class="section-title">What to expect</h2>
+      <p class="section-sub">This is a real hardware project, not a software demo.</p>
+
+      <div class="expect-list">
+        <div class="expect-item">
+          <h3>Timeline</h3>
+          <p>~3 months part-time to a rev-2 sellable board. Schematic and PCB layout are front-loaded in the first 2–3 weeks.</p>
+        </div>
+        <div class="expect-item">
+          <h3>Rev 1 will have bugs</h3>
+          <p>High-speed routing (2.5 GbE, PCIe Gen 2, USB 3.0) benefits from human review. Plan for at least one rev-2 spin. Every serious hardware product does this.</p>
+        </div>
+        <div class="expect-item">
+          <h3>Comparable products</h3>
+          <p>Turing Pi 2 ($260, 4-node), Radxa Rock 5A ($90 SBC), DeskPi Super6C ($200, CM4-only). NodePad's niche = smallest + PoE + cheap single node.</p>
+        </div>
       </div>
     </div>
   </section>
