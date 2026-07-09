@@ -48,12 +48,12 @@
     <div class="hero-overlay"></div>
     <div class="wrap hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow">// open-hardware carrier board</p>
-        <h1>A tiny node with<br>serious I/O.</h1>
+        <p class="eyebrow">open-hardware carrier board for the Radxa CM5</p>
+        <h1>More I/O than a Pi 5,<br>in 100 mm.</h1>
         <p class="hero-sub">
-          A 100 × 100 mm carrier board for the Radxa CM5 — 8-core RK3588S2,
-          dual 2.5 GbE, native NVMe, and optional PoE. More power than a
-          Pi 5, smaller than your palm.
+          Dual 2.5 GbE, native NVMe, optional PoE, 6 TOPS NPU — on a
+          4-layer board that fits in your palm. Designed in KiCad,
+          assembled by JLCPCB, open-sourced under CERN-OHL-P v2.
         </p>
         <div class="hero-actions">
           <a href="#features" class="btn btn-primary">See the specs</a>
@@ -81,38 +81,38 @@
   <!-- FEATURES -->
   <section class="section" id="features">
     <div class="wrap">
-      <p class="section-eyebrow">// killer features</p>
+      <p class="section-eyebrow">features</p>
       <h2 class="section-title">Why NodePad exists</h2>
       <p class="section-sub">The Pi 5 is great. This is better for homelabs. More cores, more Ethernet, native NVMe, and PoE — all on a 100mm square board.</p>
 
       <div class="features-grid">
         <div class="feature">
-          <span class="feature-icon">⚡</span>
+          <span class="feature-icon">&gt;&gt;</span>
           <h3>Dual 2.5 GbE</h3>
           <p>One built into the CM5, second via RTL8125BG. Run it as a router, K3s node, or dedicated cluster interconnect.</p>
         </div>
         <div class="feature">
-          <span class="feature-icon">💾</span>
+          <span class="feature-icon">[NVMe]</span>
           <h3>Native NVMe</h3>
           <p>M.2 M-key 2280 slot on-board. Real SSDs, no microSD lottery, no HAT required.</p>
         </div>
         <div class="feature">
-          <span class="feature-icon">🔌</span>
+          <span class="feature-icon">[PoE]</span>
           <h3>PoE+ Optional</h3>
           <p>Populate the MP8007 PD circuit for 802.3at 25W. Leave it off for cheaper builds. One cable does power + data.</p>
         </div>
         <div class="feature">
-          <span class="feature-icon">🔋</span>
+          <span class="feature-icon">USB-C</span>
           <h3>USB-C PD Input</h3>
           <p>CH224K negotiates 12V/15V/20V from any PD charger. No barrel jack, no wall wart.</p>
         </div>
         <div class="feature">
-          <span class="feature-icon">🧠</span>
+          <span class="feature-icon">6T</span>
           <h3>6 TOPS NPU</h3>
           <p>The RK3588S2's built-in NPU for edge AI, object detection, and local inference workloads.</p>
         </div>
         <div class="feature">
-          <span class="feature-icon">📐</span>
+          <span class="feature-icon">mm</span>
           <h3>100 × 100 mm</h3>
           <p>Cheapest JLCPCB tier. Fits in a 3D-printed cube smaller than a Pi 5. Stack four of them.</p>
         </div>
@@ -123,9 +123,9 @@
   <!-- COMPARISON -->
   <section class="section section--alt" id="specs">
     <div class="wrap">
-      <p class="section-eyebrow">// the pitch</p>
+      <p class="section-eyebrow">the spec sheet</p>
       <h2 class="section-title">NodePad vs Pi 5</h2>
-      <p class="section-sub">Buy 4, stack them, run K3s on PoE.</p>
+      <p class="section-sub">Side by side, the numbers speak for themselves.</p>
 
       <div class="comparison-table-wrap">
         <table class="comparison-table">
@@ -269,7 +269,7 @@
   <!-- WHAT IS NODEPAD -->
   <section class="section section--alt" id="about">
     <div class="wrap">
-      <p class="section-eyebrow">// what is it</p>
+      <p class="section-eyebrow">overview</p>
       <h2 class="section-title">A carrier board for the Radxa CM5</h2>
       <p class="section-sub">You skip designing the CPU/RAM/eMMC section (Radxa already did that) and get a compact server-class SBC with I/O aimed at self-hosting, homelab, mini-Kubernetes, edge servers, network appliances, and NAS-lite.</p>
 
@@ -293,7 +293,7 @@
   <!-- BLOCK DIAGRAM -->
   <section class="section" id="diagram">
     <div class="wrap">
-      <p class="section-eyebrow">// architecture</p>
+      <p class="section-eyebrow">architecture</p>
       <h2 class="section-title">How it all connects</h2>
 
       <div class="diagram-wrap">
@@ -323,7 +323,7 @@
   <!-- DESIGN DECISIONS -->
   <section class="section section--alt" id="decisions">
     <div class="wrap">
-      <p class="section-eyebrow">// why this way</p>
+      <p class="section-eyebrow">design rationale</p>
       <h2 class="section-title">Design decisions</h2>
 
       <div class="decisions-grid">
@@ -364,9 +364,9 @@
   <!-- WHAT TO EXPECT -->
   <section class="section" id="expect">
     <div class="wrap wrap--narrow">
-      <p class="section-eyebrow">// honest take</p>
+      <p class="section-eyebrow">reality check</p>
       <h2 class="section-title">What to expect</h2>
-      <p class="section-sub">This is a real hardware project, not a software demo.</p>
+      <p class="section-sub">Hardware takes longer than software. Here's the honest timeline.</p>
 
       <div class="expect-list">
         <div class="expect-item">
@@ -388,7 +388,7 @@
   <!-- STATUS / ROADMAP -->
   <section class="section" id="roadmap">
     <div class="wrap">
-      <p class="section-eyebrow">// progress</p>
+      <p class="section-eyebrow">status</p>
       <h2 class="section-title">Where we are</h2>
       <p class="section-sub">Design phase — schematic & PCB not started yet.</p>
 
@@ -435,7 +435,7 @@
   <!-- FAQ -->
   <section class="section section--alt" id="faq">
     <div class="wrap wrap--narrow">
-      <p class="section-eyebrow">// questions</p>
+      <p class="section-eyebrow">FAQ</p>
       <h2 class="section-title">Frequently asked</h2>
 
       <div class="accordion" id="accordion">
@@ -501,9 +501,9 @@
   <section class="section section--cta" id="contact">
     <div class="wrap">
       <div class="cta-box cta-box--centered">
-        <p class="section-eyebrow">// design phase</p>
+        <p class="section-eyebrow">get in touch</p>
         <h2 class="section-title">Follow the build</h2>
-        <p class="section-sub">Want to know when prototypes drop? Copy our email and send us a message.</p>
+        <p class="section-sub">Prototyping in progress. Drop us a line if you want early access or bulk pricing.</p>
         <p class="email-select" id="emailSelect">nodepad@sami-s.dev</p>
         <p class="copy-hint">Click to select, then Ctrl+C</p>
       </div>
@@ -543,7 +543,7 @@
   </div>
   <div class="wrap footer-bottom">
     <p>&copy; <span id="year"></span> NodePad. Open hardware — CERN-OHL-P v2.</p>
-    <p>Built with pure HTML, CSS &amp; JavaScript. No frameworks.</p>
+    <p>KiCad &middot; JLCPCB &middot; Radxa CM5</p>
   </div>
 </footer>
 

@@ -201,10 +201,13 @@ input, select, textarea { font: inherit; color: inherit; }
 }
 .eyebrow, .section-eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 500;
   color: var(--accent-2);
   margin-bottom: 14px;
   display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 .hero h1 {
   font-size: clamp(2.4rem, 4.4vw, 3.4rem);
@@ -325,7 +328,18 @@ input, select, textarea { font: inherit; color: inherit; }
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .feature:hover { border-color: var(--accent-soft); transform: translateY(-2px); }
-.feature-icon { font-size: 1.6rem; display: block; margin-bottom: 14px; }
+.feature-icon {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
 .feature h3 { font-size: 1.05rem; margin-bottom: 8px; }
 .feature p { color: var(--text-muted); font-size: 0.92rem; }
 
