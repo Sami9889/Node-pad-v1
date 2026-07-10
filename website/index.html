@@ -3,12 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NodePad — A Tiny, Powerful Homelab Node</title>
-<meta name="description" content="NodePad is a 100×100mm carrier board for the Radxa CM5 with dual 2.5GbE, NVMe, PoE, and more I/O than a Pi 5.">
+<title>NodePad — Open-Hardware Carrier Board for Radxa CM5 | Dual 2.5GbE, NVMe, PoE</title>
+<meta name="description" content="NodePad is a 100×100mm open-hardware carrier board for the Radxa CM5. Dual 2.5GbE, native NVMe, optional PoE, 6 TOPS NPU. More I/O than a Raspberry Pi 5 at $99.">
+<meta name="keywords" content="NodePad, Radxa CM5, carrier board, single board computer, homelab, 2.5GbE, NVMe, PoE, open hardware, KiCad, RK3588S2, Raspberry Pi alternative, Kubernetes, K3s, edge server, SBC">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://sami9889.github.io/Node-pad-v1/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sami9889.github.io/Node-pad-v1/">
+<meta property="og:title" content="NodePad — Open-Hardware Carrier Board for Radxa CM5">
+<meta property="og:description" content="100×100mm carrier board with dual 2.5GbE, native NVMe, optional PoE. More I/O than a Pi 5 at $99.">
+<meta property="og:site_name" content="NodePad">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NodePad — Open-Hardware Carrier Board for Radxa CM5">
+<meta name="twitter:description" content="100×100mm carrier board with dual 2.5GbE, native NVMe, optional PoE. More I/O than a Pi 5 at $99.">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "NodePad",
+  "description": "Open-hardware carrier board for the Radxa CM5 compute module. Dual 2.5GbE, native M.2 NVMe, optional PoE+, 100×100mm form factor.",
+  "brand": {
+    "@type": "Organization",
+    "name": "NodePad"
+  },
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "99",
+    "highPrice": "279",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "category": "Single Board Computer",
+  "additionalProperty": [
+    {"@type": "PropertyValue", "name": "Form Factor", "value": "100×100mm"},
+    {"@type": "PropertyValue", "name": "Processor", "value": "RK3588S2 8-core"},
+    {"@type": "PropertyValue", "name": "Ethernet", "value": "2× 2.5GbE"},
+    {"@type": "PropertyValue", "name": "Storage", "value": "M.2 M-key NVMe 2280"},
+    {"@type": "PropertyValue", "name": "PoE", "value": "802.3at optional"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "NodePad",
+  "url": "https://sami9889.github.io/Node-pad-v1/",
+  "email": "nodepad@sami-s.dev"
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
 </head>
 <body>
 
