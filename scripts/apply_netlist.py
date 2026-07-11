@@ -9,6 +9,8 @@ we know from having built the empty board scaffold ourselves.
 """
 import re, os, sys, glob, uuid
 
+from sync_board import functional_positions, parse_nets, sync
+
 def read_sexpr_block(text, token):
     """Return the first top-level (token ...) block in text and its span."""
     idx = text.find(f"({token}")
@@ -116,17 +118,13 @@ def main():
     cache = {}
     missing = []
 
-    # Grid layout: 100x100 board, place components on a 10x10 mm grid
-    # starting at (10,45) so we don't collide with header text.
+    # Deterministic functional placement keeps fixed connectors at board edges
+    # and groups support parts around their owning subsystem. This is only a
+    # placement baseline; reference-layout review is still mandatory.
     footprints = []
-    x0, y0 = 10.0, 45.0
-    dx, dy = 5.5, 5.5
-    per_row = 16
-    for i, (ref, value, fp) in enumerate(comps):
-        row = i // per_row
-        col = i % per_row
-        px = x0 + col * dx
-        py = y0 + row * dy
+    positions = functional_positions([ref for ref, _, _ in comps])
+    for ref, value, fp in comps:
+        px, py, _rotation = positions[ref]
         if fp not in cache:
             cache[fp] = load_footprint(fp, libs)
             if cache[fp] is None:
@@ -149,6 +147,11 @@ def main():
     # Insert just before the trailing ")"
     end = pcb.rstrip().rfind(")")
     new_pcb = pcb[:end] + joined + pcb[end:]
+    new_pcb, unassigned = sync(new_pcb, parse_nets(open(netlist_path).read()))
+    if unassigned:
+        print(f"WARNING: {len(unassigned)} netlist nodes have no matching footprint pad")
+        for item in unassigned[:20]:
+            print(f"   UNASSIGNED: {item}")
 
     out = pcb_path + ".placed"
     with open(out, "w") as f:

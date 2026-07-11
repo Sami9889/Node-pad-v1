@@ -3,7 +3,7 @@
 > A tiny, cheap, more-powerful-than-a-Pi homelab node.
 > Radxa CM5 (RK3588S2, 8-core, up to 16 GB RAM) on a **100 × 100 mm** carrier board with the kind of I/O a Pi 5 doesn't give you.
 
-**Status:** design phase — schematic & PCB not started yet.
+**Status:** Rev 0.1 placement/connectivity audit in progress — **not fabrication-ready; do not order**. See `VERIFICATION.md` for blocking footprint and pin-mapping defects.
 **Author:** Samrath "Sami" Singh
 **License:** TBD (MIT or CERN-OHL-P recommended if you plan to sell it)
 
