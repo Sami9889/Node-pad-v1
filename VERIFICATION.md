@@ -1,5 +1,11 @@
 # NodePad — Pin & Function Verification Pass
 
+> **FABRICATION GATE: FAILED — DO NOT ORDER REV 0.1**
+>
+> Board audit on 2026-07-11 found 262 netlist nodes that cannot map to a physical pad. Most critically, J1/J2 are 100-pin logical CM5 connectors assigned to a 40-pin Hirose BM24 footprint, so the board cannot physically mate with the Radxa CM5 and cannot carry all required power or I/O pins. The board also still uses placeholder symbols/pin numbers for RTL8125BG, GL3523, MP2315, CH224K, TPS2553, and optional MP8007; no tracks or fabrication outputs may be generated until those mappings are replaced with authoritative production data.
+>
+> `scripts/sync_board.py` now installs the 241-net table, maps the 801 pads that physically exist, and creates a functional placement baseline. Its 262 `MISSING` results are intentional hard failures, not waived DRC items. Paid routing APIs were not used.
+
 Rev 0.1 · Author: Samrath "Sami" Singh · Date: 2026-07-08
 
 This is an honest self-audit of every component & subsystem, sorted by
